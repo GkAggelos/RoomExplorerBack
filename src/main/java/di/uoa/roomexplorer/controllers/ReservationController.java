@@ -59,4 +59,10 @@ public class ReservationController {
         reservationService.deleteReservationById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/find/host/{id}")
+    public ResponseEntity<List<Reservation>> getReservationsByHost_id(@PathVariable("id") Long host_id) {
+        List<Reservation> reservations = reservationService.findReservationsByHost(host_id);
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 }
