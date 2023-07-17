@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface ResidenceRepo extends JpaRepository<Residence, Long> {
 
-    Optional<List<Reservation>> findReservationsByHostId(Long id);
+    List<Residence> findResidencesByHost_Id(Long id);
+//    Optional<List<Reservation>> findReservationsByHostId(Long id);
 }

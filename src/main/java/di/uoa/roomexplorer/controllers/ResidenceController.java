@@ -32,9 +32,15 @@ public class ResidenceController {
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 
-    @GetMapping("/find/host/{id}/reservations/")
-    public ResponseEntity<List<Reservation>> getReservationByHostId(@PathVariable("id") Long id) {
-        List<Reservation> reservations = residenceService.findReservationsByHostId(id);
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    @GetMapping("/find/host/{id}")
+    public ResponseEntity<List<Residence>> getResidenceByHostId(@PathVariable("id") Long host_id) {
+        List<Residence> residences = residenceService.findResidencesByHostId(host_id);
+        return new ResponseEntity<>(residences, HttpStatus.OK);
     }
+
+//    @GetMapping("/find/host/{id}/reservations")
+//    public ResponseEntity<List<Reservation>> getReservationByHostId(@PathVariable("id") Long id) {
+//        List<Reservation> reservations = residenceService.findReservationsByHostId(id);
+//        return new ResponseEntity<>(reservations, HttpStatus.OK);
+//    }
 }

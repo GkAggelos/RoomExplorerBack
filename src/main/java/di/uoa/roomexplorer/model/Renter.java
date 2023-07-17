@@ -1,5 +1,6 @@
 package di.uoa.roomexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 public class Renter extends User {
 
     @OneToMany(mappedBy = "renter")
+    @JsonIgnore
     Set<Reservation> reservations;
 
     public Set<Reservation> getReservations() {

@@ -1,5 +1,6 @@
 package di.uoa.roomexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -59,6 +60,7 @@ public class Residence {
     Boolean has_elevator;
 
     @OneToMany(mappedBy = "residence")
+    @JsonIgnore
     Set<Reservation> reservations;
 
     public Long getId() {

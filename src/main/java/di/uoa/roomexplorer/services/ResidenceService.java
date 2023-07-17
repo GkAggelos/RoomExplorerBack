@@ -24,8 +24,10 @@ public class ResidenceService {
         return residenceRepo.findAll();
     }
 
-    public List<Reservation> findReservationsByHostId(Long host_id) {
-        return residenceRepo.findReservationsByHostId(host_id).
-                orElseThrow(() -> new ReservationNotFoundException("Reservations for host by id " + host_id + " were not found"));
-    }
+    public List<Residence> findResidencesByHostId(Long host_id) { return residenceRepo.findResidencesByHost_Id(host_id); }
+
+//    public List<Reservation> findReservationsByHostId(Long host_id) {
+//        return residenceRepo.findReservationsByHostId(host_id).
+//                orElseThrow(() -> new ReservationNotFoundException("Reservations for host by id " + host_id + " were not found"));
+//    }
 }
