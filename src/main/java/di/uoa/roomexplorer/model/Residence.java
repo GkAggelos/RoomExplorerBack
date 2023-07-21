@@ -63,6 +63,10 @@ public class Residence {
     @JsonIgnore
     Set<Reservation> reservations;
 
+    @OneToMany(mappedBy = "residence")
+    @JsonIgnore
+    Set<AvailablePeriod> availablePeriods;
+
     public Long getId() {
         return id;
     }
