@@ -2,17 +2,19 @@ package di.uoa.roomexplorer.controllers;
 
 import di.uoa.roomexplorer.model.AvailablePeriod;
 import di.uoa.roomexplorer.services.AvailablePeriodService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/available_periods")
+@RestController
+@RequestMapping("/available-periods")
 public class AvailablePeriodController {
 
     public final AvailablePeriodService availablePeriodService;
-
+    @Autowired
     public AvailablePeriodController(AvailablePeriodService availablePeriodService) {
         this.availablePeriodService = availablePeriodService;
     }

@@ -32,6 +32,12 @@ public class HostController {
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
 
+    @GetMapping("/find/username/{username}")
+    public ResponseEntity<Host> getHostByUsername(@PathVariable("username") String username) {
+        Host host = hostService.findByUsername(username);
+        return new ResponseEntity<>(host, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Host> addHost(@RequestBody Host newhost) {
         Host host = hostService.addHost(newhost);

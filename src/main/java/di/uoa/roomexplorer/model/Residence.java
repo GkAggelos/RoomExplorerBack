@@ -27,17 +27,36 @@ public class Residence {
     Integer peopleCapacity;
 
     @Column(nullable = false)
+    Integer bedNumber;
+
+    @Column(nullable = false)
+    Integer bathroomNumber;
+
+    @Column(nullable = false)
+    Integer bedroomNumber;
+
+    @Column(nullable = false)
+    Integer acreage;
+
+    @Column(nullable = false)
     RoomType roomType;
 
     @Column(columnDefinition="MEDIUMTEXT")
     String comment;
 
-    String photo;
+    @Column(columnDefinition="MEDIUMTEXT")
+    String description;
+
+    @OneToMany(mappedBy = "residence")
+    @JsonIgnore
+    Set<Photo> photos;
 
     @ManyToOne
     @JoinColumn(name = "host_id", nullable = false)
     Host host;
 
+    @Column(nullable = false)
+    Boolean has_living_room;
     @Column(nullable = false)
     Boolean has_wifi;
 
@@ -115,6 +134,38 @@ public class Residence {
         this.peopleCapacity = peopleCapacity;
     }
 
+    public Integer getBedNumber() {
+        return bedNumber;
+    }
+
+    public void setBedNumber(Integer bedNumber) {
+        this.bedNumber = bedNumber;
+    }
+
+    public Integer getBathroomNumber() {
+        return bathroomNumber;
+    }
+
+    public void setBathroomNumber(Integer bathroomNumber) {
+        this.bathroomNumber = bathroomNumber;
+    }
+
+    public Integer getBedroomNumber() {
+        return bedroomNumber;
+    }
+
+    public void setBedroomNumber(Integer bedroomNumber) {
+        this.bedroomNumber = bedroomNumber;
+    }
+
+    public Integer getAcreage() {
+        return acreage;
+    }
+
+    public void setAcreage(Integer acreage) {
+        this.acreage = acreage;
+    }
+
     public RoomType getRoomType() {
         return roomType;
     }
@@ -131,12 +182,20 @@ public class Residence {
         this.comment = comment;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
     }
 
     public Host getHost() {
@@ -145,6 +204,14 @@ public class Residence {
 
     public void setHost(Host host) {
         this.host = host;
+    }
+
+    public Boolean getHas_living_room() {
+        return has_living_room;
+    }
+
+    public void setHas_living_room(Boolean has_living_room) {
+        this.has_living_room = has_living_room;
     }
 
     public Boolean getHas_wifi() {
@@ -210,4 +277,13 @@ public class Residence {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+    public Set<AvailablePeriod> getAvailablePeriods() {
+        return availablePeriods;
+    }
+
+    public void setAvailablePeriods(Set<AvailablePeriod> availablePeriods) {
+        this.availablePeriods = availablePeriods;
+    }
+
 }

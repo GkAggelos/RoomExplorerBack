@@ -1,6 +1,5 @@
 package di.uoa.roomexplorer.controllers;
 
-import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.services.RenterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,12 @@ public class RenterController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Renter> getRenterById(@PathVariable("id") Long id) {
         Renter renter = renterService.findRenterById(id);
+        return new ResponseEntity<>(renter, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/username/{username}")
+    public ResponseEntity<Renter> getRenterByUsername(@PathVariable("username") String username) {
+        Renter renter = renterService.findRenterByUsername(username);
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }
 
