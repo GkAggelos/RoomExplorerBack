@@ -2,10 +2,12 @@ package di.uoa.roomexplorer.services;
 
 import di.uoa.roomexplorer.model.AvailablePeriod;
 import di.uoa.roomexplorer.repositories.AvailablePeriodRepo;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AvailablePeriodService {
 
     private final AvailablePeriodRepo availablePeriodRepo;
@@ -27,5 +29,9 @@ public class AvailablePeriodService {
 
     public List<AvailablePeriod> getAvailablePeriodsByResidenceId(Long residenceId) {
         return availablePeriodRepo.findAvailablePeriodsByResidenceId(residenceId);
+    }
+
+    public List<AvailablePeriod> getAllPeriods() {
+        return availablePeriodRepo.findAll();
     }
 }

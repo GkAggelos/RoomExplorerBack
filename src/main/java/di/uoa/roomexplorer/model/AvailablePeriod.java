@@ -1,34 +1,28 @@
 package di.uoa.roomexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
+@IdClass(AvailablePeriodId.class)
 public class AvailablePeriod {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-
+    @Id
     @ManyToOne
     @JoinColumn(name = "residence_id", nullable = false)
     Residence residence;
 
+    @Id
     @Temporal(TemporalType.DATE)
-    Date date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate date;
 
     @Column(nullable = false)
     Integer duration;
 
     public AvailablePeriod() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Residence getResidence() {
         return residence;
@@ -38,11 +32,11 @@ public class AvailablePeriod {
         this.residence = residence;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
