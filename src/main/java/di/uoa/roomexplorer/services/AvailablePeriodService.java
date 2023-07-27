@@ -30,4 +30,8 @@ public class AvailablePeriodService {
     public List<AvailablePeriod> getAvailablePeriodsByResidenceId(Long residenceId) {
         return availablePeriodRepo.findAvailablePeriodsByResidenceId(residenceId);
     }
+
+    public List<AvailablePeriod> getAllPeriods() {
+        return availablePeriodRepo.findAll();
+    }
 }
