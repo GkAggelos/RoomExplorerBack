@@ -32,6 +32,20 @@ public class RenterController {
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }
 
+    @CrossOrigin("http://localhost:4200")
+    @GetMapping("/find/all/usernames")
+    public ResponseEntity<List<String>> getAllUsernames() {
+        List<String> usernames = renterService.findAllUsernames();
+        return new ResponseEntity<>(usernames,HttpStatus.OK);
+    }
+
+    @CrossOrigin("http://localhost:4200")
+    @GetMapping("/find/all/emails")
+    public ResponseEntity<List<String>> getAllEmails() {
+        List<String> emails = renterService.findAllEmails();
+        return new ResponseEntity<>(emails,HttpStatus.OK);
+    }
+
     @GetMapping("/find/username/{username}")
     public ResponseEntity<Renter> getRenterByUsername(@PathVariable("username") String username) {
         Renter renter = renterService.findRenterByUsername(username);

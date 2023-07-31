@@ -32,6 +32,20 @@ public class HostController {
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
 
+    @CrossOrigin("http://localhost:4200")
+    @GetMapping("/find/all/usernames")
+    public ResponseEntity<List<String>> getAllUsernames() {
+        List<String> usernames = hostService.findAllUsernames();
+        return new ResponseEntity<>(usernames,HttpStatus.OK);
+    }
+
+    @CrossOrigin("http://localhost:4200")
+    @GetMapping("/find/all/emails")
+    public ResponseEntity<List<String>> getAllEmails() {
+        List<String> emails = hostService.findAllEmails();
+        return new ResponseEntity<>(emails,HttpStatus.OK);
+    }
+
     @GetMapping("/find/username/{username}")
     public ResponseEntity<Host> getHostByUsername(@PathVariable("username") String username) {
         Host host = hostService.findByUsername(username);

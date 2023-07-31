@@ -5,6 +5,7 @@ import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.repositories.RenterRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,24 @@ public class RenterService {
     }
     public List<Renter> findAllRenters() {
         return renterRepo.findAll();
+    }
+
+    public List<String> findAllUsernames() {
+        List<Renter> renters = findAllRenters();
+        List<String> usernames = new ArrayList<String>();
+        for (int i = 0; i < renters.size(); i++) {
+            usernames.add(renters.get(i).getUsername());
+        }
+        return usernames;
+    }
+
+    public List<String> findAllEmails() {
+        List<Renter> renters = findAllRenters();
+        List<String> emails  = new ArrayList<String>();
+        for (int i = 0; i < renters.size(); i++) {
+            emails.add(renters.get(i).getEmail());
+        }
+        return emails;
     }
     public Renter findRenterById(Long id) {
         return renterRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));

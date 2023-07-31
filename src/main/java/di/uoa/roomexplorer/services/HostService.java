@@ -5,7 +5,7 @@ import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.repositories.HostRepo;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +20,24 @@ public class HostService {
     }
     public List<Host> findAllHosts() {
         return hostRepo.findAll();
+    }
+
+    public List<String> findAllUsernames() {
+        List<Host> hosts = findAllHosts();
+        List<String> usernames = new ArrayList<String>();
+        for (int i = 0; i < hosts.size(); i++) {
+            usernames.add(hosts.get(i).getUsername());
+        }
+        return usernames;
+    }
+
+    public List<String> findAllEmails() {
+        List<Host> hosts = findAllHosts();
+        List<String> emails  = new ArrayList<String>();
+        for (int i = 0; i < hosts.size(); i++) {
+            emails.add(hosts.get(i).getEmail());
+        }
+        return emails;
     }
 
     public Host findByUsername(String username) { return hostRepo.findHostByUsername(username)

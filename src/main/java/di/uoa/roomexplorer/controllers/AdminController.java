@@ -15,11 +15,13 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/{id}")
     public Admin getAdminById(@PathVariable("id") Long id) {
         return adminService.findAdminById(id);
     }
 
+    @CrossOrigin("http://localhost:4200")
     @PutMapping("/update")
     public Admin updateAdmin(Admin newAdmin) {
         return adminService.updateAdmin(newAdmin);
