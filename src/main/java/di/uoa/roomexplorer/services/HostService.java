@@ -46,6 +46,11 @@ public class HostService {
     public Host findHostById(Long id) {
         return hostRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
     }
+
+    public boolean isHostApproved(String username) {
+        Host host = findByUsername(username);
+        return host.getApproved();
+    }
     public Host updateHost(Host newHost) {
         return hostRepo.save(newHost);
     }

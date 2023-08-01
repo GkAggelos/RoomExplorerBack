@@ -1,5 +1,6 @@
 package di.uoa.roomexplorer.config;
 
+import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.User;
 import di.uoa.roomexplorer.services.UserService;
 import jakarta.servlet.FilterChain;
@@ -39,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             username = jwtService.extractUsername(jwt);
             role = jwtService.extractRole(jwt);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                User user = this.userService.findByUsername(username, role).orElseThrow();
+                User user = this.userService.findByUsername(username, role).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
                 if (jwtService.isTokenValid(jwt, user)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             user,

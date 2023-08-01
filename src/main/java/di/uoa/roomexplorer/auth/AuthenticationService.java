@@ -1,12 +1,13 @@
 package di.uoa.roomexplorer.auth;
 
 import di.uoa.roomexplorer.config.JwtService;
+import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.model.User;
-import di.uoa.roomexplorer.repositories.AdminRepo;
 import di.uoa.roomexplorer.repositories.HostRepo;
 import di.uoa.roomexplorer.repositories.RenterRepo;
+import di.uoa.roomexplorer.services.HostService;
 import di.uoa.roomexplorer.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class AuthenticationService {
 
     private final HostRepo hostRepo;
+    private final HostService hostService;
     private final RenterRepo renterRepo;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -41,7 +43,7 @@ public class AuthenticationService {
                     request.getLastName(),
                     request.getEmail(),
                     request.getPhoneNumber());
-            host = hostRepo.save(host);
+            hostRepo.save(host);
             renter = renterRepo.save(renter);
             jwtToken = jwtService.generateToken(renter.getUsername(), renter.getId(), "renter");
         }
@@ -72,13 +74,38 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         String jwtToken = "";
-        User user = userService.findByUsername(request.getUsername(),request.getRole()).orElseThrow();
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        try {
+            User user = userService.findByUsername(request.getUsername(),request.getRole()).orElseThrow(() -> new UserNotFoundException("User with name" + request.getUsername() + "was not found"));
+            if (request.getRole().equals("host")) {
+                if (!hostService.isHostApproved(request.getUsername())) {
+                    return AuthenticationResponse.builder()
+                            .token(jwtToken)
+                            .message("Host not approved")
+                            .build();
+                }
+            }
+            try {
+                if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+                }
+                jwtToken = jwtService.generateToken(request.getUsername(), user.getId(), request.getRole());
+                return AuthenticationResponse.builder()
+                        .token(jwtToken)
+                        .message("")
+                        .build();
+            }
+            catch (ResponseStatusException ex) {
+                return AuthenticationResponse.builder()
+                        .token(jwtToken)
+                        .message("User password incorrect")
+                        .build();
+            }
         }
-        jwtToken = jwtService.generateToken(request.getUsername(), user.getId(), request.getRole());
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        catch (UserNotFoundException ex) {
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .message("User with this username not found")
+                    .build();
+        }
     }
 }
