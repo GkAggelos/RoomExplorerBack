@@ -30,6 +30,7 @@ public class AuthenticationService {
         Host host;
         Renter renter;
         String jwtToken = "";
+
         if (request.getRole().equals("host-renter")) {
             host = new Host(request.getUsername(),
                     passwordEncoder.encode(request.getPassword()),

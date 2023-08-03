@@ -1,5 +1,10 @@
 package di.uoa.roomexplorer;
 
+
+import di.uoa.roomexplorer.model.Admin;
+import di.uoa.roomexplorer.repositories.AdminRepo;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +19,19 @@ public class RoomExplorerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RoomExplorerApplication.class, args);
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(AdminRepo adminRepo, PasswordEncoder passwordEncoder) {
+        return args -> {
+            Admin admin = new Admin("admin",  passwordEncoder.encode("1234"), "Admin", "Admin", "admin@mail.com", "6986534214");
+
+            adminRepo.save(admin);
+
+            System.out.println("Admin username: admin");
+            System.out.println("Admin password: 1234");
+
+        };
     }
 
     @Bean

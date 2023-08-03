@@ -81,6 +81,7 @@ public class UserService {
     public AuthenticationResponse updateUser(String username, String role, User user) {
         Host host;
         Renter renter;
+        Admin admin;
         String jwtToken = "";
 
         if (role.equals("host")) {
@@ -146,6 +147,21 @@ public class UserService {
                         .token(jwtToken)
                         .build();
             }
+        }
+        if (role.equals("admin")) {
+            admin = adminRepo.findAdminByUsername(username).orElseThrow();
+            admin.setUsername(user.getUsername());
+            admin.setPassword(passwordEncoder.encode(user.getPassword()));
+            admin.setFirstName(user.getFirstName());
+            admin.setLastName(user.getLastName());
+            admin.setEmail(user.getEmail());
+            admin.setPhoneNumber(user.getPhoneNumber());
+            admin.setPhoto(user.getPhoto());
+            adminRepo.save(admin);
+            jwtToken = jwtService.generateToken(admin.getUsername(), admin.getId(), role);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
         }
         return AuthenticationResponse.builder()
                 .token(jwtToken)
