@@ -3,6 +3,7 @@ package di.uoa.roomexplorer.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -56,6 +57,12 @@ public class Residence {
     Host host;
 
     @Column(nullable = false)
+    LocalDate available_from;
+
+    @Column(nullable = false)
+    LocalDate available_till;
+
+    @Column(nullable = false)
     Boolean has_living_room;
     @Column(nullable = false)
     Boolean has_wifi;
@@ -82,9 +89,55 @@ public class Residence {
     @JsonIgnore
     Set<Reservation> reservations;
 
-    @OneToMany(mappedBy = "residence")
-    @JsonIgnore
-    Set<AvailablePeriod> availablePeriods;
+    public Residence(Double pricing, String location, Integer area, Integer floor, Integer peopleCapacity,
+                     Integer bedNumber, Integer bathroomNumber, Integer bedroomNumber, Integer acreage,
+                     RoomType roomType, Host host, LocalDate available_from, LocalDate available_till,
+                     Boolean has_living_room, Boolean has_wifi, Boolean has_heating, Boolean has_air_condition,
+                     Boolean has_cuisine, Boolean has_tv, Boolean has_parking, Boolean has_elevator) {
+
+        this.pricing = pricing;
+        this.location = location;
+        this.area = area;
+        this.floor = floor;
+        this.peopleCapacity = peopleCapacity;
+        this.bedNumber = bedNumber;
+        this.bathroomNumber = bathroomNumber;
+        this.bedroomNumber = bedroomNumber;
+        this.acreage = acreage;
+        this.roomType = roomType;
+        this.host = host;
+        this.available_from = available_from;
+        this.available_till = available_till;
+        this.has_living_room = has_living_room;
+        this.has_wifi = has_wifi;
+        this.has_heating = has_heating;
+        this.has_air_condition = has_air_condition;
+        this.has_cuisine = has_cuisine;
+        this.has_tv = has_tv;
+        this.has_parking = has_parking;
+        this.has_elevator = has_elevator;
+    }
+
+    public Residence() {}
+
+    public LocalDate getAvailable_from() {
+        return available_from;
+    }
+
+    public void setAvailable_from(LocalDate available_from) {
+        this.available_from = available_from;
+    }
+
+    public LocalDate getAvailable_till() {
+        return available_till;
+    }
+
+    public void setAvailable_till(LocalDate available_till) {
+        this.available_till = available_till;
+    }
+//    @OneToMany(mappedBy = "residence")
+//    @JsonIgnore
+//    Set<AvailablePeriod> availablePeriods;
 
     public Long getId() {
         return id;
@@ -158,13 +211,9 @@ public class Residence {
         this.bedroomNumber = bedroomNumber;
     }
 
-    public Integer getAcreage() {
-        return acreage;
-    }
+    public Integer getAcreage() { return acreage; }
 
-    public void setAcreage(Integer acreage) {
-        this.acreage = acreage;
-    }
+    public void setAcreage(Integer acreage) { this.acreage = acreage; }
 
     public RoomType getRoomType() {
         return roomType;
@@ -278,12 +327,12 @@ public class Residence {
         this.reservations = reservations;
     }
 
-    public Set<AvailablePeriod> getAvailablePeriods() {
-        return availablePeriods;
-    }
-
-    public void setAvailablePeriods(Set<AvailablePeriod> availablePeriods) {
-        this.availablePeriods = availablePeriods;
-    }
+//    public Set<AvailablePeriod> getAvailablePeriods() {
+//        return availablePeriods;
+//    }
+//
+//    public void setAvailablePeriods(Set<AvailablePeriod> availablePeriods) {
+//        this.availablePeriods = availablePeriods;
+//    }
 
 }

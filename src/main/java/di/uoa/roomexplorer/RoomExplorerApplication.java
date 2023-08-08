@@ -22,19 +22,6 @@ public class RoomExplorerApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(AdminRepo adminRepo, PasswordEncoder passwordEncoder) {
-        return args -> {
-            Admin admin = new Admin("admin",  passwordEncoder.encode("1234"), "Admin", "Admin", "admin@mail.com", "6986534214");
-
-            adminRepo.save(admin);
-
-            System.out.println("Admin username: admin");
-            System.out.println("Admin password: 1234");
-
-        };
-    }
-
-    @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);

@@ -2,13 +2,25 @@ package di.uoa.roomexplorer.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Reservation {
 
+    public Reservation(LocalDate reservationDate, LocalDate arrivalDate, LocalDate leaveDate,
+                       ReservationState state, Residence residence, Renter renter) {
+        this.reservationDate = reservationDate;
+        this.arrivalDate = arrivalDate;
+        this.leaveDate = leaveDate;
+        this.state = state;
+        this.residence = residence;
+        this.renter = renter;
+    }
+
+    public Reservation() {}
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-     Long id;
+    Long id;
 
     Integer stars;
 
@@ -16,13 +28,13 @@ public class Reservation {
     String review;
 
     @Column(name = "reservation_date", columnDefinition = "DATE")
-    Date reservationDate;
+    LocalDate reservationDate;
 
     @Column(name = "arrival_date", columnDefinition = "DATE")
-    Date arrivalDate;
+    LocalDate arrivalDate;
 
     @Column(name = "leave_date", columnDefinition = "DATE")
-    Date leaveDate;
+    LocalDate leaveDate;
 
     @Column(nullable = false)
     ReservationState state;
@@ -75,27 +87,27 @@ public class Reservation {
         this.review = review;
     }
 
-    public Date getReservationDate() {
+    public LocalDate getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
+    public void setReservationDate(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
     }
 
-    public Date getArrivalDate() {
+    public LocalDate getArrivalDate() {
         return arrivalDate;
     }
 
-    public void setArrivalDate(Date arrivalDate) {
+    public void setArrivalDate(LocalDate arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
 
-    public Date getLeaveDate() {
+    public LocalDate getLeaveDate() {
         return leaveDate;
     }
 
-    public void setLeaveDate(Date leaveDate) {
+    public void setLeaveDate(LocalDate leaveDate) {
         this.leaveDate = leaveDate;
     }
 
