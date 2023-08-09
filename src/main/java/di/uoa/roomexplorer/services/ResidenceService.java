@@ -1,6 +1,5 @@
 package di.uoa.roomexplorer.services;
 
-import di.uoa.roomexplorer.exception.ReservationNotFoundException;
 import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
 import di.uoa.roomexplorer.model.Photo;
 import di.uoa.roomexplorer.model.Residence;
@@ -13,6 +12,7 @@ import java.util.Set;
 
 @Service
 public class ResidenceService {
+
     private final ResidenceRepo residenceRepo;
 
     public ResidenceService(ResidenceRepo residenceRepo) {
@@ -44,7 +44,7 @@ public class ResidenceService {
     }
 
     public List<Residence> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity) {
-        return residenceRepo.findResidencesBySearch(peopleCapacity, location, arrivalDate, leaveDate);
+        return residenceRepo.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
     }
 
 //    public List<Reservation> findReservationsByHostId(Long host_id) {
