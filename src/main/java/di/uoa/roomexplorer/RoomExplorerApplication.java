@@ -1,10 +1,6 @@
 package di.uoa.roomexplorer;
 
 
-import di.uoa.roomexplorer.model.Admin;
-import di.uoa.roomexplorer.repositories.AdminRepo;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

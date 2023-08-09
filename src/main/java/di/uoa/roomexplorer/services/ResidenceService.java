@@ -7,6 +7,7 @@ import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,10 @@ public class ResidenceService {
     public Set<Photo> findAllPhotosByResidenceId(Long id) {
         Residence residence = findResidenceById(id);
         return residence.getPhotos();
+    }
+
+    public List<Residence> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity) {
+        return residenceRepo.findResidencesBySearch(peopleCapacity, location, arrivalDate, leaveDate);
     }
 
 //    public List<Reservation> findReservationsByHostId(Long host_id) {

@@ -5,10 +5,12 @@ import di.uoa.roomexplorer.model.Reservation;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.services.ResidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -64,6 +66,17 @@ public class ResidenceController {
     public ResponseEntity<?> deleteResidence(@PathVariable("id") Long residence_id) {
         residenceService.deleteResidence(residence_id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Residence>> getResidencesBySearch(
+            @RequestParam String location,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate arrivalDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate leaveDate,
+            @RequestParam Integer peopleCapacity) {
+
+        List<Residence> residences = residenceService.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
+        return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 
 //    @GetMapping("/find/host/{id}/reservations")
