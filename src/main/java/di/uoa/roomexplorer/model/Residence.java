@@ -48,7 +48,7 @@ public class Residence {
     @Column(columnDefinition="MEDIUMTEXT")
     String description;
 
-    @OneToMany(mappedBy = "residence")
+    @OneToMany(mappedBy = "residence", cascade = CascadeType.REMOVE)
     @JsonIgnore
     Set<Photo> photos;
 
@@ -85,7 +85,7 @@ public class Residence {
     @Column(nullable = false)
     Boolean has_elevator;
 
-    @OneToMany(mappedBy = "residence")
+    @OneToMany(mappedBy = "residence", cascade = CascadeType.REMOVE)
     @JsonIgnore
     Set<Reservation> reservations;
 

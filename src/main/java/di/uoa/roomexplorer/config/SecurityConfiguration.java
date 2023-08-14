@@ -29,7 +29,8 @@ public class SecurityConfiguration {
                         "/host/find/all/usernames",
                         "/host/find/all/emails",
                         "/renter/find/all/usernames",
-                        "renter/find/all/emails")
+                        "renter/find/all/emails",
+                        "residence/search")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
