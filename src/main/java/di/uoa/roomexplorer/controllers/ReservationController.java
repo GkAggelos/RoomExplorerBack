@@ -1,5 +1,6 @@
 package di.uoa.roomexplorer.controllers;
 
+import di.uoa.roomexplorer.model.MessageResponse;
 import di.uoa.roomexplorer.model.Reservation;
 import di.uoa.roomexplorer.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ public class ReservationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Reservation> addReservation(@RequestBody Reservation newReservation) {
-        Reservation reservation = reservationService.addReservation(newReservation);
-        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
+    public ResponseEntity<MessageResponse> addReservation(@RequestBody Reservation newReservation) {
+        MessageResponse message = reservationService.addReservation(newReservation);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")

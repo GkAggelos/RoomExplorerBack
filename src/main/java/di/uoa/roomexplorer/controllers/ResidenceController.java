@@ -43,7 +43,6 @@ public class ResidenceController {
         return new ResponseEntity<>(residence, HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/host/{id}")
     public ResponseEntity<List<Residence>> getResidenceByHostId(@PathVariable("id") Long host_id) {
         List<Residence> residences = residenceService.findResidencesByHostId(host_id);

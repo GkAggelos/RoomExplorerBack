@@ -2,6 +2,8 @@ package di.uoa.roomexplorer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -41,6 +43,12 @@ public class Residence {
 
     @Column(nullable = false)
     RoomType roomType;
+
+    @Column(nullable = false)
+    Integer reviewsNumber;
+
+    @Column(nullable = false)
+    Integer starsAverage;
 
     @Column(columnDefinition="MEDIUMTEXT")
     String comment;
@@ -91,7 +99,7 @@ public class Residence {
 
     public Residence(Double pricing, String location, Integer area, Integer floor, Integer peopleCapacity,
                      Integer bedNumber, Integer bathroomNumber, Integer bedroomNumber, Integer acreage,
-                     RoomType roomType, Host host, LocalDate available_from, LocalDate available_till,
+                     RoomType roomType, Integer reviewsNumber, Integer starsAverage, Host host, LocalDate available_from, LocalDate available_till,
                      Boolean has_living_room, Boolean has_wifi, Boolean has_heating, Boolean has_air_condition,
                      Boolean has_cuisine, Boolean has_tv, Boolean has_parking, Boolean has_elevator) {
 
@@ -105,6 +113,8 @@ public class Residence {
         this.bedroomNumber = bedroomNumber;
         this.acreage = acreage;
         this.roomType = roomType;
+        this.reviewsNumber = reviewsNumber;
+        this.starsAverage = starsAverage;
         this.host = host;
         this.available_from = available_from;
         this.available_till = available_till;
@@ -221,6 +231,22 @@ public class Residence {
 
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
+    }
+
+    public Integer getReviewsNumber() {
+        return reviewsNumber;
+    }
+
+    public void setReviewsNumber(Integer reviewsNumber) {
+        this.reviewsNumber = reviewsNumber;
+    }
+
+    public Integer getStarsAverage() {
+        return starsAverage;
+    }
+
+    public void setStarsAverage(Integer starsAverage) {
+        this.starsAverage = starsAverage;
     }
 
     public String getComment() {

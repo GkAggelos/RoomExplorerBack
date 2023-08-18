@@ -64,17 +64,17 @@ public class ApplicationConfig {
     public CommandLineRunner initResidence(ResidenceRepo residenceRepo, HostRepo hostRepo) {
         return args -> {
 
-            Residence residence = new Residence(100.0, "Athens", 15773, 2, 4, 2, 1, 1, 35, PRIVATE, hostRepo.findById(1L).get(), LocalDate.of(2023, 2, 10), LocalDate.of(2023, 3, 10), false, false, false, false, false, false, false, false);
+            Residence residence = new Residence(100.0, "Athens", 15773, 2, 4, 2, 1, 1, 35, PRIVATE, 34345, 5, hostRepo.findById(1L).get(), LocalDate.of(2023, 2, 10), LocalDate.of(2023, 3, 10), false, false, false, false, false, false, false, false);
             residenceRepo.save(residence);
 
-            residence = new Residence(70.0, "Patra", 19752, 4, 5, 4, 1, 1, 35, SHARED, hostRepo.findById(1L).get(), LocalDate.of(2023, 5, 1), LocalDate.of(2023, 8, 31), true, true, false, true, false, false, false, false);
+            residence = new Residence(70.0, "Patra", 19752, 4, 5, 4, 1, 1, 35, SHARED, 0, 1, hostRepo.findById(1L).get(), LocalDate.of(2023, 5, 1), LocalDate.of(2023, 8, 31), true, true, false, true, false, false, false, false);
             residenceRepo.save(residence);
 
 
-            residence = new Residence(120.0, "Thessaloniki", 20194, 1, 2, 2, 1, 1, 35, PRIVATE, hostRepo.findById(2L).get(), LocalDate.of(2023, 2, 10), LocalDate.of(2023, 3, 10), false, false, false, false, false, false, false, false);
+            residence = new Residence(120.0, "Thessaloniki", 20194, 1, 2, 2, 1, 1, 35, PRIVATE, 0, 1, hostRepo.findById(2L).get(), LocalDate.of(2023, 2, 10), LocalDate.of(2023, 3, 10), false, false, false, false, false, false, false, false);
             residenceRepo.save(residence);
 
-            residence = new Residence(50.0, "Volos", 19752, 4, 5, 2, 1, 1, 35, SHARED, hostRepo.findById(2L).get(), LocalDate.of(2023, 5, 1), LocalDate.of(2023, 8, 31), true, true, false, true, false, false, false, false);
+            residence = new Residence(50.0, "Volos", 19752, 4, 5, 2, 1, 1, 35, SHARED, 0, 1, hostRepo.findById(2L).get(), LocalDate.of(2023, 5, 1), LocalDate.of(2023, 8, 31), true, true, false, true, false, false, false, false);
             residenceRepo.save(residence);
         };
     }
