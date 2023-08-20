@@ -1,8 +1,11 @@
 package di.uoa.roomexplorer.controllers;
 
+import di.uoa.roomexplorer.model.Host;
+import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.services.RenterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,12 @@ public class RenterController {
     public ResponseEntity<List<Renter>> getAllRenters() {
         List<Renter> renters = renterService.findAllRenters();
         return new ResponseEntity<>(renters, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{page}")
+    public PageResponse<Page<Renter>> getAllHosts(@PathVariable("page") int page) {
+        Page<Renter> renters = renterService.findAllRentersPagination(page);
+        return new PageResponse<>(renters.getTotalElements(), renters);
     }
 
     @GetMapping("/find/{id}")

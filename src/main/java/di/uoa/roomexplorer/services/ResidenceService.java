@@ -4,6 +4,9 @@ import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
 import di.uoa.roomexplorer.model.Photo;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +37,9 @@ public class ResidenceService {
 
     public List<Residence> findResidencesByHostId(Long host_id) { return residenceRepo.findResidencesByHost_Id(host_id); }
 
+    public Page<Residence> findResidencesByHostIdPagination(Long host_id, int page) {
+        return residenceRepo.findResidencesByHost_Id(host_id, PageRequest.of(page, 10)); }
+
     public void deleteResidence(Long id) {
         residenceRepo.deleteById(id);
     }
@@ -47,8 +53,4 @@ public class ResidenceService {
         return residenceRepo.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
     }
 
-//    public List<Reservation> findReservationsByHostId(Long host_id) {
-//        return residenceRepo.findReservationsByHostId(host_id).
-//                orElseThrow(() -> new ReservationNotFoundException("Reservations for host by id " + host_id + " were not found"));
-//    }
 }

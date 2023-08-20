@@ -2,7 +2,10 @@ package di.uoa.roomexplorer.services;
 
 import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.Host;
+import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.repositories.HostRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +23,10 @@ public class HostService {
     }
     public List<Host> findAllHosts() {
         return hostRepo.findAll();
+    }
+
+    public Page<Host> findAllHostsPagination(int page) {
+        return hostRepo.findAll(PageRequest.of(page, 10));
     }
 
     public List<String> findAllUsernames() {

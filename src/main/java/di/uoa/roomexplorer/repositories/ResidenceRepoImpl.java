@@ -1,6 +1,7 @@
 package di.uoa.roomexplorer.repositories;
 
 import di.uoa.roomexplorer.model.Reservation;
+import di.uoa.roomexplorer.model.ReservationState;
 import di.uoa.roomexplorer.model.Residence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,7 +18,6 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
 
     @PersistenceContext
     EntityManager entityManager;
-
     @Override
     public List<Residence> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, Integer peopleCapacity) {
         Query query = entityManager.createQuery(
@@ -36,7 +36,7 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
         for (Residence residence : possibleResidences) {
             Set<Reservation> reservations = residence.getReservations();
             for (Reservation reservation : reservations) {
-                if (arrivalDate.isBefore(reservation.getLeaveDate()) && reservation.getArrivalDate().isBefore(leaveDate)) {
+                if (arrivalDate.isBefore(reservation.getLeaveDate()) && reservation.getArrivalDate().isBefore(leaveDate) && !reservation.getState().equals(ReservationState.REJECTED)) {
                     residences.remove(residence);
                     break;
                 }

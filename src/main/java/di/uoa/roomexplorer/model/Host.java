@@ -1,6 +1,7 @@
 package di.uoa.roomexplorer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -23,7 +24,7 @@ public class Host extends User {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
-    @OneToMany(mappedBy = "host")
+    @OneToMany(mappedBy = "host", cascade = CascadeType.REMOVE)
     @JsonIgnore
     Set<Residence> residences;
 

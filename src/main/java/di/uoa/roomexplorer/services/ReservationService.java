@@ -6,6 +6,8 @@ import di.uoa.roomexplorer.model.Reservation;
 import di.uoa.roomexplorer.model.ReservationState;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.repositories.ReservationRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -23,7 +25,7 @@ public class ReservationService {
     }
 
     public MessageResponse addReservation(Reservation newReservation) {
-        List<Reservation> reservations = findReservationByRenter(newReservation.getRenter().getId());
+        List<Reservation> reservations = findReservationsByRenter(newReservation.getRenter().getId());
         for (Reservation reservation : reservations) {
             if (reservation.getLeaveDate().equals(newReservation.getLeaveDate()) &&
                 reservation.getArrivalDate().equals(newReservation.getArrivalDate()) &&
@@ -47,12 +49,23 @@ public class ReservationService {
     public Reservation findReservationById(Long id) {
         return reservationRepo.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation by id " + id + " was not found"));
     }
+
     public List<Reservation> findReservationByResidence(Long residence_id) {
         return reservationRepo.findReservationsByResidence_Id(residence_id).
                 orElseThrow(() -> new ReservationNotFoundException("Reservations for residence by id " + residence_id + " were not found"));
     }
-    public List<Reservation> findReservationByRenter(Long renter_id) {
+
+    public Page<Reservation> findReservationByResidencePagination(Long residence_id, int page) {
+        return reservationRepo.findReservationsByResidence_Id(residence_id, PageRequest.of(page, 10)).
+                orElseThrow(() -> new ReservationNotFoundException("Reservations for residence by id " + residence_id + " were not found"));
+    }
+    public List<Reservation> findReservationsByRenter(Long renter_id) {
         return reservationRepo.findReservationsByRenter_Id(renter_id).
+                orElseThrow(() -> new ReservationNotFoundException("Reservations for renter by id " + renter_id + " were not found"));
+    }
+
+    public Page<Reservation> findReservationsByRenterPagination(Long renter_id, int page) {
+        return reservationRepo.findReservationsByRenter_Id(renter_id, PageRequest.of(page, 10)).
                 orElseThrow(() -> new ReservationNotFoundException("Reservations for renter by id " + renter_id + " were not found"));
     }
 

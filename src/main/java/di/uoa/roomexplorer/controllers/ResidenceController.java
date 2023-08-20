@@ -1,10 +1,12 @@
 package di.uoa.roomexplorer.controllers;
 
+import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.model.Photo;
 import di.uoa.roomexplorer.model.Reservation;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.services.ResidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +51,12 @@ public class ResidenceController {
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 
+    @GetMapping("/find/host/{id}/{page}")
+    public PageResponse<Page<Residence>> getResidenceByHostIdPagination(@PathVariable("id") Long host_id, @PathVariable("page") int page) {
+        Page<Residence> residences = residenceService.findResidencesByHostIdPagination(host_id, page);
+        return new PageResponse<>(residences.getTotalElements(), residences);
+    }
+
     @GetMapping("/find/photos/{id}")
     public ResponseEntity<Set<Photo>> getPhotosByResidenceId(@PathVariable("id") Long residence_id) {
         Set<Photo> photos = residenceService.findAllPhotosByResidenceId(residence_id);
@@ -77,10 +85,4 @@ public class ResidenceController {
         List<Residence> residences = residenceService.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
-
-//    @GetMapping("/find/host/{id}/reservations")
-//    public ResponseEntity<List<Reservation>> getReservationByHostId(@PathVariable("id") Long id) {
-//        List<Reservation> reservations = residenceService.findReservationsByHostId(id);
-//        return new ResponseEntity<>(reservations, HttpStatus.OK);
-//    }
 }

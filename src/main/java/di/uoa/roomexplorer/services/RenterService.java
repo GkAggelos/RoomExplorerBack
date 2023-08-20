@@ -3,6 +3,8 @@ package di.uoa.roomexplorer.services;
 import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.repositories.RenterRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +22,10 @@ public class RenterService {
     }
     public List<Renter> findAllRenters() {
         return renterRepo.findAll();
+    }
+
+    public Page<Renter> findAllRentersPagination(int page) {
+        return renterRepo.findAll(PageRequest.of(page, 10));
     }
 
     public List<String> findAllUsernames() {

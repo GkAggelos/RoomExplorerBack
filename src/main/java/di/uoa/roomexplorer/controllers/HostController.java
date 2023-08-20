@@ -1,8 +1,10 @@
 package di.uoa.roomexplorer.controllers;
 
 import di.uoa.roomexplorer.model.Host;
+import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,12 @@ public class HostController {
     public ResponseEntity<List<Host>> getAllHosts() {
         List<Host> hosts = hostService.findAllHosts();
         return new ResponseEntity<>(hosts, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{page}")
+    public PageResponse<Page<Host>> getAllHosts(@PathVariable("page") int page) {
+        Page<Host> hosts = hostService.findAllHostsPagination(page);
+        return new PageResponse<>(hosts.getTotalElements(), hosts);
     }
 
     @GetMapping("/find/{id}")
