@@ -77,12 +77,12 @@ public class ResidenceController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Residence>> getResidencesBySearch(
-            @RequestParam String location,
+            @RequestParam String city,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate arrivalDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate leaveDate,
             @RequestParam Integer peopleCapacity) {
 
-        List<Residence> residences = residenceService.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
+        List<Residence> residences = residenceService.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity);
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 }

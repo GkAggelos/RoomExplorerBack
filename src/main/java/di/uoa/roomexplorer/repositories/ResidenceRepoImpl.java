@@ -19,13 +19,13 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
     @PersistenceContext
     EntityManager entityManager;
     @Override
-    public List<Residence> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, Integer peopleCapacity) {
+    public List<Residence> findResidencesBySearch(String city, LocalDate arrivalDate, LocalDate leaveDate, Integer peopleCapacity) {
         Query query = entityManager.createQuery(
-                "SELECT r FROM Residence r WHERE (LOCATE(LOWER(r.location), LOWER(?1)) > 0) AND " +
+                "SELECT r FROM Residence r WHERE (LOCATE(LOWER(r.city), LOWER(?1)) > 0) AND " +
                 "r.available_from <= ?2 AND r.available_till >= ?3 AND " +
                 "r.peopleCapacity>=?4");
 
-        query.setParameter(1, location);
+        query.setParameter(1, city);
         query.setParameter(2, arrivalDate);
         query.setParameter(3, leaveDate);
         query.setParameter(4, peopleCapacity);

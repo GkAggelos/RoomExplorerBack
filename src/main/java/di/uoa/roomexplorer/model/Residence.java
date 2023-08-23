@@ -18,11 +18,19 @@ public class Residence {
     Double pricing;
 
     @Column(nullable = false)
-    String location;
+    String city;
 
     @Column(nullable = false)
-    Integer area;
+    String area;
 
+    @Column(nullable = false)
+    String address;
+
+    @Column(nullable = false)
+    Double coordinateX;
+
+    @Column(nullable = false)
+    Double coordinateY;
     @Column(nullable = false)
     Integer floor;
 
@@ -97,15 +105,18 @@ public class Residence {
     @JsonIgnore
     Set<Reservation> reservations;
 
-    public Residence(Double pricing, String location, Integer area, Integer floor, Integer peopleCapacity,
+    public Residence(Double pricing, String city, String area, String address, Double coordinateX, Double coordinateY, Integer floor, Integer peopleCapacity,
                      Integer bedNumber, Integer bathroomNumber, Integer bedroomNumber, Integer acreage,
                      RoomType roomType, Integer reviewsNumber, Integer starsAverage, Host host, LocalDate available_from, LocalDate available_till,
                      Boolean has_living_room, Boolean has_wifi, Boolean has_heating, Boolean has_air_condition,
                      Boolean has_cuisine, Boolean has_tv, Boolean has_parking, Boolean has_elevator) {
 
         this.pricing = pricing;
-        this.location = location;
+        this.city = city;
         this.area = area;
+        this.address = address;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
         this.floor = floor;
         this.peopleCapacity = peopleCapacity;
         this.bedNumber = bedNumber;
@@ -165,20 +176,44 @@ public class Residence {
         this.pricing = pricing;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Integer getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(Integer area) {
+    public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Double getCoordinateX() {
+        return coordinateX;
+    }
+
+    public void setCoordinateX(Double coordinateX) {
+        this.coordinateX = coordinateX;
+    }
+
+    public Double getCoordinateY() {
+        return coordinateY;
+    }
+
+    public void setCoordinateY(Double coordinateY) {
+        this.coordinateY = coordinateY;
     }
 
     public Integer getFloor() {

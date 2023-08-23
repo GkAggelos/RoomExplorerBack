@@ -49,8 +49,8 @@ public class ResidenceService {
         return residence.getPhotos();
     }
 
-    public List<Residence> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity) {
-        return residenceRepo.findResidencesBySearch(location, arrivalDate, leaveDate, peopleCapacity);
+    public List<Residence> findResidencesBySearch(String city, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity) {
+        return residenceRepo.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity);
     }
 
 }
