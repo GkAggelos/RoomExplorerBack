@@ -1,11 +1,15 @@
 package di.uoa.roomexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @MappedSuperclass
 @Builder
@@ -22,11 +26,14 @@ public class User implements UserDetails {
     String phoneNumber;
     @Column(columnDefinition= "LONGBLOB")
     String photo;
+    @JsonIgnore
+    String role;
 
     public User() {
     }
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, String phoneNumber, String photo) {
+    public User(Long id, String username, String password, String firstName, String lastName, String email, String phoneNumber, String photo,
+                 String role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -35,7 +42,9 @@ public class User implements UserDetails {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photo = photo;
+        this.role = role;
     }
+
 
     public Long getId() {
         return id;
@@ -55,26 +64,28 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        if (role != "") authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        return authorities;
     }
 
     @Override
-    public boolean isAccountNonExpired() {
+    public final boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked() {
+    public final boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {
+    public final boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return true;
     }
 
@@ -124,5 +135,13 @@ public class User implements UserDetails {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -3,6 +3,7 @@ package di.uoa.roomexplorer.controllers;
 import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.services.HostService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,31 +24,32 @@ public class HostController {
     }
 
     @GetMapping("/all")
+    @RolesAllowed({"admin"})
     public ResponseEntity<List<Host>> getAllHosts() {
         List<Host> hosts = hostService.findAllHosts();
         return new ResponseEntity<>(hosts, HttpStatus.OK);
     }
 
     @GetMapping("/all/{page}")
+    @RolesAllowed({"admin"})
     public PageResponse<Page<Host>> getAllHosts(@PathVariable("page") int page) {
         Page<Host> hosts = hostService.findAllHostsPagination(page);
         return new PageResponse<>(hosts.getTotalElements(), hosts);
     }
 
     @GetMapping("/find/{id}")
+    @RolesAllowed({"admin", "host"})
     public ResponseEntity<Host> getHostById(@PathVariable("id") Long id) {
         Host host = hostService.findHostById(id);
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/all/usernames")
     public ResponseEntity<List<String>> getAllUsernames() {
         List<String> usernames = hostService.findAllUsernames();
         return new ResponseEntity<>(usernames,HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/all/emails")
     public ResponseEntity<List<String>> getAllEmails() {
         List<String> emails = hostService.findAllEmails();
@@ -67,12 +69,14 @@ public class HostController {
     }
 
     @PutMapping("/update")
+    @RolesAllowed({"admin", "host"})
     public ResponseEntity<Host> updateHost(@RequestBody Host newhost) {
         Host host = hostService.updateHost(newhost);
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
+    @RolesAllowed({"host"})
     public ResponseEntity<?> deleteHost(@PathVariable("id") Long id) {
         hostService.deleteHost(id);
         return new ResponseEntity<>(HttpStatus.OK);

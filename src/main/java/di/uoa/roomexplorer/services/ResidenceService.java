@@ -1,12 +1,12 @@
 package di.uoa.roomexplorer.services;
 
 import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
+import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.model.Photo;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -49,8 +49,8 @@ public class ResidenceService {
         return residence.getPhotos();
     }
 
-    public List<Residence> findResidencesBySearch(String city, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity) {
-        return residenceRepo.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity);
+    public PageResponse<List<Residence>> findResidencesBySearch(String city, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity, int page) {
+        return residenceRepo.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity, page);
     }
 
 }

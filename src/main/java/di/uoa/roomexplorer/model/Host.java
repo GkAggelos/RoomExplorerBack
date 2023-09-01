@@ -5,11 +5,11 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -36,15 +36,20 @@ public class Host extends User {
         this.residences = residences;
     }
 
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
-    }
-
     public Set<Residence> getResidences() {
         return residences;
     }
 
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
     public Boolean getApproved() {
         return approved;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }

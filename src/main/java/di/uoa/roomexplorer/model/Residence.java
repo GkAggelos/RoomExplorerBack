@@ -68,6 +68,10 @@ public class Residence {
     @JsonIgnore
     Set<Photo> photos;
 
+    @OneToMany(mappedBy = "residence", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    Set<Message> messages;
+
     @ManyToOne
     @JoinColumn(name = "host_id", nullable = false)
     Host host;
@@ -306,6 +310,14 @@ public class Residence {
 
     public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
     }
 
     public Host getHost() {

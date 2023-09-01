@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +15,11 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = false,
+        securedEnabled = false,
+        jsr250Enabled = true
+)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -30,7 +36,7 @@ public class SecurityConfiguration {
                         "/host/find/all/emails",
                         "/renter/find/all/usernames",
                         "renter/find/all/emails",
-                        "residence/search",
+                        "residence/search/**",
                         "residence/find/**",
                         "reservation/find/residence/**")
                 .permitAll()

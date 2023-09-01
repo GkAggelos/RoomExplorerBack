@@ -12,6 +12,7 @@ import di.uoa.roomexplorer.repositories.HostRepo;
 import di.uoa.roomexplorer.repositories.RenterRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,15 +35,15 @@ public class UserService {
         Admin admin;
         if (role.equals("host")) {
             host = hostRepo.findHostByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
-            user = new User(host.getId(), host.getUsername(),host.getPassword(), host.getFirstName(), host.getLastName(), host.getEmail(), host.getPhoneNumber(), host.getPhoto());
+            user = new User(host.getId(), host.getUsername(),host.getPassword(), host.getFirstName(), host.getLastName(), host.getEmail(), host.getPhoneNumber(), host.getPhoto(), "host");
         }
         if (role.equals("renter")) {
             renter = renterRepo.findRenterByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
-            user = new User(renter.getId(), renter.getUsername(),renter.getPassword(), renter.getFirstName(), renter.getLastName(), renter.getEmail(), renter.getPhoneNumber(), renter.getPhoto());
+            user = new User(renter.getId(), renter.getUsername(),renter.getPassword(), renter.getFirstName(), renter.getLastName(), renter.getEmail(), renter.getPhoneNumber(), renter.getPhoto(), "renter");
         }
         if (role.equals("admin")) {
             admin = adminRepo.findAdminByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
-            user = new User(admin.getId(), admin.getUsername(), admin.getPassword(), admin.getFirstName(), admin.getLastName(), admin.getEmail(), admin.getPhoneNumber(), admin.getPhoto());
+            user = new User(admin.getId(), admin.getUsername(), admin.getPassword(), admin.getFirstName(), admin.getLastName(), admin.getEmail(), admin.getPhoneNumber(), admin.getPhoto(), "admin");
         }
         return Optional.of(user);
     }

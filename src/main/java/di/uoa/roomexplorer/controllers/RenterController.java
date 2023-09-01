@@ -1,9 +1,9 @@
 package di.uoa.roomexplorer.controllers;
 
-import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.services.RenterService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,31 +24,32 @@ public class RenterController {
     }
 
     @GetMapping("/all")
+    @RolesAllowed({"admin"})
     public ResponseEntity<List<Renter>> getAllRenters() {
         List<Renter> renters = renterService.findAllRenters();
         return new ResponseEntity<>(renters, HttpStatus.OK);
     }
 
     @GetMapping("/all/{page}")
+    @RolesAllowed({"admin"})
     public PageResponse<Page<Renter>> getAllHosts(@PathVariable("page") int page) {
         Page<Renter> renters = renterService.findAllRentersPagination(page);
         return new PageResponse<>(renters.getTotalElements(), renters);
     }
 
     @GetMapping("/find/{id}")
+    @RolesAllowed({"admin", "renter"})
     public ResponseEntity<Renter> getRenterById(@PathVariable("id") Long id) {
         Renter renter = renterService.findRenterById(id);
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/all/usernames")
     public ResponseEntity<List<String>> getAllUsernames() {
         List<String> usernames = renterService.findAllUsernames();
         return new ResponseEntity<>(usernames,HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost:4200")
     @GetMapping("/find/all/emails")
     public ResponseEntity<List<String>> getAllEmails() {
         List<String> emails = renterService.findAllEmails();
@@ -68,12 +69,14 @@ public class RenterController {
     }
 
     @PutMapping("/update")
+    @RolesAllowed({"renter"})
     public ResponseEntity<Renter> updateRenter(@RequestBody Renter newrenter) {
         Renter renter = renterService.updateRenter(newrenter);
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
+    @RolesAllowed({"renter"})
     public ResponseEntity<Renter> deleteRenter(@PathVariable("id") Long id) {
         renterService.deleteRenter(id);
         return new ResponseEntity<>(HttpStatus.OK);

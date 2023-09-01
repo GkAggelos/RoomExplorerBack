@@ -2,7 +2,6 @@ package di.uoa.roomexplorer.services;
 
 import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.Host;
-import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.repositories.HostRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

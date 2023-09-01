@@ -2,9 +2,9 @@ package di.uoa.roomexplorer.controllers;
 
 import di.uoa.roomexplorer.model.PageResponse;
 import di.uoa.roomexplorer.model.Photo;
-import di.uoa.roomexplorer.model.Reservation;
 import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.services.ResidenceService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,12 +27,14 @@ public class ResidenceController {
     }
 
     @PostMapping("/add")
+    @RolesAllowed({"host"})
     public ResponseEntity<Residence> addResidence(@RequestBody Residence newResidence) {
         Residence residence = residenceService.addResidence(newResidence);
         return new ResponseEntity<>(residence, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
+    @RolesAllowed({"admin"})
     public ResponseEntity<List<Residence>> getAllResidences() {
         List<Residence> residences = residenceService.findAllResidence();
         return new ResponseEntity<>(residences, HttpStatus.OK);
@@ -46,12 +48,14 @@ public class ResidenceController {
     }
 
     @GetMapping("/find/host/{id}")
+    @RolesAllowed({"admin", "host"})
     public ResponseEntity<List<Residence>> getResidenceByHostId(@PathVariable("id") Long host_id) {
         List<Residence> residences = residenceService.findResidencesByHostId(host_id);
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 
     @GetMapping("/find/host/{id}/{page}")
+    @RolesAllowed({"host", "admin"})
     public PageResponse<Page<Residence>> getResidenceByHostIdPagination(@PathVariable("id") Long host_id, @PathVariable("page") int page) {
         Page<Residence> residences = residenceService.findResidencesByHostIdPagination(host_id, page);
         return new PageResponse<>(residences.getTotalElements(), residences);
@@ -64,25 +68,27 @@ public class ResidenceController {
     }
 
     @PutMapping("/update")
+    @RolesAllowed({"host"})
     public ResponseEntity<Residence> updateResidence(@RequestBody Residence newResidence) {
         Residence residence = residenceService.updateResidence(newResidence);
         return new ResponseEntity<>(residence, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
+    @RolesAllowed({"host"})
     public ResponseEntity<?> deleteResidence(@PathVariable("id") Long residence_id) {
         residenceService.deleteResidence(residence_id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Residence>> getResidencesBySearch(
+    @GetMapping("/search/{page}")
+    public PageResponse<List<Residence>> getResidencesBySearch(
             @RequestParam String city,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate arrivalDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate leaveDate,
-            @RequestParam Integer peopleCapacity) {
+            @RequestParam Integer peopleCapacity,
+            @PathVariable("page") int page) {
 
-        List<Residence> residences = residenceService.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity);
-        return new ResponseEntity<>(residences, HttpStatus.OK);
+        return residenceService.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity, page);
     }
 }
