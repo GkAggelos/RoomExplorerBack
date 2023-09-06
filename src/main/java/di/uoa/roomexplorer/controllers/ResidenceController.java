@@ -81,14 +81,21 @@ public class ResidenceController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/search/{page}")
-    public PageResponse<List<Residence>> getResidencesBySearch(
+    @GetMapping("/search/filter/{page}")
+    public PageResponse<List<Residence>> getResidencesBySearchAndFilter(
             @RequestParam String city,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate arrivalDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate leaveDate,
             @RequestParam Integer peopleCapacity,
-            @PathVariable("page") int page) {
+            @RequestParam String roomType,
+            @RequestParam Boolean parking, @RequestParam Boolean livingRoom,
+            @RequestParam Boolean wifi, @RequestParam Boolean heating,
+            @RequestParam Boolean airCondition, @RequestParam Boolean cuisine,
+            @RequestParam Boolean tv, @RequestParam Boolean elevator,
+            @RequestParam String price, @PathVariable("page") int page) {
 
-        return residenceService.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity, page);
+        return residenceService.findResidencesBySearchAndFilter(city, arrivalDate, leaveDate, peopleCapacity,
+                                                                roomType, parking, livingRoom, wifi,
+                                                                heating, airCondition, cuisine, tv, elevator, price, page);
     }
 }

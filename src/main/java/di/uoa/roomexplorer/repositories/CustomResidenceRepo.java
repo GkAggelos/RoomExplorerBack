@@ -8,5 +8,10 @@ import java.util.List;
 
 public interface CustomResidenceRepo {
 
-    PageResponse<List<Residence>> findResidencesBySearch(String location, LocalDate arrivalDate, LocalDate leaveDate, Integer peopleCapacity, int pageNumber);
+    PageResponse<List<Residence>> findResidencesBySearchAndFilter(String location, LocalDate arrivalDate, LocalDate leaveDate,
+                                                                  Integer peopleCapacity, String roomType, Boolean parking,
+                                                                  Boolean livingRoom, Boolean wifi, Boolean heating,
+                                                                  Boolean airCondition, Boolean cuisine, Boolean tv,
+                                                                  Boolean elevator, String price ,int pageNumber);
+
 }

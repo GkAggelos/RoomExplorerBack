@@ -49,8 +49,13 @@ public class ResidenceService {
         return residence.getPhotos();
     }
 
-    public PageResponse<List<Residence>> findResidencesBySearch(String city, LocalDate arrivalDate, LocalDate leaveDate, int peopleCapacity, int page) {
-        return residenceRepo.findResidencesBySearch(city, arrivalDate, leaveDate, peopleCapacity, page);
+    public PageResponse<List<Residence>> findResidencesBySearchAndFilter(String city, LocalDate arrivalDate, LocalDate leaveDate,
+                                                                         Integer peopleCapacity, String roomType, Boolean parking,
+                                                                         Boolean livingRoom, Boolean wifi, Boolean heating,
+                                                                         Boolean airCondition, Boolean cuisine, Boolean tv,
+                                                                         Boolean elevator, String price, int page) {
+        return residenceRepo.findResidencesBySearchAndFilter(city, arrivalDate, leaveDate, peopleCapacity,
+                roomType, parking, livingRoom, wifi, heating, airCondition, cuisine, tv, elevator, price, page);
     }
 
 }

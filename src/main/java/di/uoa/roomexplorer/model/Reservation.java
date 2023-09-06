@@ -8,13 +8,15 @@ import java.time.LocalDate;
 public class Reservation {
 
     public Reservation(LocalDate reservationDate, LocalDate arrivalDate, LocalDate leaveDate,
-                       ReservationState state, Residence residence, Renter renter) {
+                       ReservationState state, Residence residence, Renter renter, Integer stars, String review) {
         this.reservationDate = reservationDate;
         this.arrivalDate = arrivalDate;
         this.leaveDate = leaveDate;
         this.state = state;
         this.residence = residence;
         this.renter = renter;
+        this.stars = stars;
+        this.review = review;
     }
 
     public Reservation() {}

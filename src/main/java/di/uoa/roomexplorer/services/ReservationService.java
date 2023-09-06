@@ -82,13 +82,13 @@ public class ReservationService {
         Reservation reservation = findReservationById(newReservation.getId());
 
         int star_sum = reservation.getResidence().getStarsAverage() * reservation.getResidence().getReviewsNumber();
-        if (reservation.getReview().equals("") && !newReservation.getReview().equals("")) {
+        if (reservation.getReview() != null && reservation.getReview().equals("") && !newReservation.getReview().equals("")) {
             star_sum = star_sum + newReservation.getStars();
             int average = star_sum / (reservation.getResidence().getReviewsNumber() + 1);
             newReservation.getResidence().setStarsAverage(average);
             newReservation.getResidence().setReviewsNumber(reservation.getResidence().getReviewsNumber() + 1);
         }
-        else if (!newReservation.getReview().equals("")){
+        else if (reservation.getReview() != null && !newReservation.getReview().equals("")){
             star_sum = star_sum - reservation.getStars() + newReservation.getStars();
             int average = star_sum / reservation.getResidence().getReviewsNumber();
             newReservation.getResidence().setStarsAverage(average);
