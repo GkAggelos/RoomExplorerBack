@@ -3,6 +3,7 @@ package di.uoa.roomexplorer.config;
 import di.uoa.roomexplorer.model.*;
 import di.uoa.roomexplorer.repositories.*;
 import lombok.RequiredArgsConstructor;
+import org.la4j.Matrix;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import static di.uoa.roomexplorer.model.RoomType.*;
 
@@ -130,6 +132,27 @@ public class ApplicationConfig {
 
             reservation = new Reservation(LocalDate.now(), LocalDate.of(2023, 3, 2), LocalDate.of(2023, 3, 8), ReservationState.PENDING, residenceRepo.findById(14L).get(), renterRepo.findById(2L).get(), 1, "");
             reservationRepo.save(reservation);
+        };
+    }
+
+    @Bean
+    public CommandLineRunner initMF() {
+        return args -> {
+            Matrix matrix = Matrix.zero(3, 3);
+            matrix.set(0, 0, 2);
+            matrix.set(0, 1, 3);
+            matrix.set(0, 2, 1);
+            matrix.set(1, 0, 5);
+            matrix.set(1, 1, 2);
+            matrix.set(1, 2, 3);
+            matrix.set(2, 0, 1);
+            matrix.set(2, 1, 2);
+            matrix.set(2, 2, 4);
+            System.out.println(matrix.toString());
+
+            MatrixFactorization matrixFactorization = new MatrixFactorization(matrix, 2, 0.0001);
+            matrixFactorization.train();
+            System.out.println(matrixFactorization.getFullMatrix().toString());
         };
     }
 }

@@ -1,9 +1,7 @@
 package di.uoa.roomexplorer.services;
 
 import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
-import di.uoa.roomexplorer.model.PageResponse;
-import di.uoa.roomexplorer.model.Photo;
-import di.uoa.roomexplorer.model.Residence;
+import di.uoa.roomexplorer.model.*;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +19,14 @@ public class ResidenceService {
     public ResidenceService(ResidenceRepo residenceRepo) {
         this.residenceRepo = residenceRepo;
     }
+//    private final RenterService renterService;
+//    private final ReservationService reservationService;
+
+//    public ResidenceService(ResidenceRepo residenceRepo, RenterService renterService, ReservationService reservationService) {
+//        this.residenceRepo = residenceRepo;
+//        this.renterService = renterService;
+//        this.reservationService = reservationService;
+//    }
 
     public Residence addResidence(Residence newResidence) {
         return residenceRepo.save(newResidence);
@@ -58,4 +64,60 @@ public class ResidenceService {
                 roomType, parking, livingRoom, wifi, heating, airCondition, cuisine, tv, elevator, price, page);
     }
 
+//    public List<Residence> findResidenceRecommendations(Long renterId) {
+//        List<Renter> renters = renterService.findAllRenters();
+//        List<Residence> residences = this.findAllResidence();
+//
+//        Matrix R = Matrix.zero(renters.size(), residences.size());
+//
+////        for (int row = 0; row < R.rows(); row++) {
+////            for (int col = 0; col < R.columns(); col++) {
+////
+////            }
+////        }
+//
+//        int renterRow = -1;
+//        for (int rent = 0; rent < renters.size(); rent++) {
+//            if (renters.get(rent).getId() == renterId) {
+//                renterRow = rent;
+//            }
+//            List<Reservation> reservations = reservationService.findReservationsByRenter(renters.get(rent).getId());
+//            for (int res = 0; res < residences.size(); res++) {
+//                for (Reservation reservation : reservations) {
+//                    if (reservation.getResidence().getId() == residences.get(res).getId()) {
+//                        R.set(rent, res, reservation.getStars());
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//
+//        MatrixFactorization matrixFactorization = new MatrixFactorization(R, 2, 0.001);
+//        matrixFactorization.train();
+////        List<Double> predictions = matrixFactorization.getPrediction(renterRow);
+//        Vector predictions = matrixFactorization.getPrediction(renterRow);
+//        List<Residence> recommendedResidences = new LinkedList<>();
+//        List<Reservation> renterReservations = reservationService.findReservationsByRenter(renterId);
+//        for (int i = 0; i < predictions.length(); i++) {
+//            for (Reservation reservation : renterReservations) {
+//                if (residences.get(i).getId() == reservation.getResidence().getId()) {
+//                    predictions.set(i, -1.0);
+//                    break;
+//                }
+//            }
+//        }
+//
+//        for (int i = 0; i < 5; i++) {
+//            double maxVal = predictions.max();
+//            for (int j = 0; j < predictions.length(); j++) {
+//                if (predictions.get(j) == maxVal) {
+//                    recommendedResidences.add(residences.get(j));
+//                    predictions.set(j, -1);
+//                    break;
+//                }
+//            }
+//        }
+//
+//        return recommendedResidences;
+//    }
 }
