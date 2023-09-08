@@ -1,13 +1,18 @@
 package di.uoa.roomexplorer.services;
 
+import di.uoa.roomexplorer.config.MatrixFactorization;
 import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
 import di.uoa.roomexplorer.model.*;
+import di.uoa.roomexplorer.repositories.ReservationRepo;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
+import org.la4j.Matrix;
+import org.la4j.Vector;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,17 +21,14 @@ public class ResidenceService {
 
     private final ResidenceRepo residenceRepo;
 
-    public ResidenceService(ResidenceRepo residenceRepo) {
-        this.residenceRepo = residenceRepo;
-    }
-//    private final RenterService renterService;
-//    private final ReservationService reservationService;
+    private final RenterService renterService;
+    private final ReservationRepo reservationRepo;
 
-//    public ResidenceService(ResidenceRepo residenceRepo, RenterService renterService, ReservationService reservationService) {
-//        this.residenceRepo = residenceRepo;
-//        this.renterService = renterService;
-//        this.reservationService = reservationService;
-//    }
+    public ResidenceService(ResidenceRepo residenceRepo, RenterService renterService, ReservationRepo reservationRepo) {
+        this.residenceRepo = residenceRepo;
+        this.renterService = renterService;
+        this.reservationRepo = reservationRepo;
+    }
 
     public Residence addResidence(Residence newResidence) {
         return residenceRepo.save(newResidence);
@@ -64,60 +66,59 @@ public class ResidenceService {
                 roomType, parking, livingRoom, wifi, heating, airCondition, cuisine, tv, elevator, price, page);
     }
 
-//    public List<Residence> findResidenceRecommendations(Long renterId) {
-//        List<Renter> renters = renterService.findAllRenters();
-//        List<Residence> residences = this.findAllResidence();
-//
-//        Matrix R = Matrix.zero(renters.size(), residences.size());
-//
-////        for (int row = 0; row < R.rows(); row++) {
-////            for (int col = 0; col < R.columns(); col++) {
-////
-////            }
-////        }
-//
-//        int renterRow = -1;
-//        for (int rent = 0; rent < renters.size(); rent++) {
-//            if (renters.get(rent).getId() == renterId) {
-//                renterRow = rent;
-//            }
-//            List<Reservation> reservations = reservationService.findReservationsByRenter(renters.get(rent).getId());
-//            for (int res = 0; res < residences.size(); res++) {
-//                for (Reservation reservation : reservations) {
-//                    if (reservation.getResidence().getId() == residences.get(res).getId()) {
-//                        R.set(rent, res, reservation.getStars());
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        MatrixFactorization matrixFactorization = new MatrixFactorization(R, 2, 0.001);
-//        matrixFactorization.train();
-////        List<Double> predictions = matrixFactorization.getPrediction(renterRow);
-//        Vector predictions = matrixFactorization.getPrediction(renterRow);
-//        List<Residence> recommendedResidences = new LinkedList<>();
-//        List<Reservation> renterReservations = reservationService.findReservationsByRenter(renterId);
-//        for (int i = 0; i < predictions.length(); i++) {
-//            for (Reservation reservation : renterReservations) {
-//                if (residences.get(i).getId() == reservation.getResidence().getId()) {
-//                    predictions.set(i, -1.0);
-//                    break;
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < 5; i++) {
-//            double maxVal = predictions.max();
-//            for (int j = 0; j < predictions.length(); j++) {
-//                if (predictions.get(j) == maxVal) {
-//                    recommendedResidences.add(residences.get(j));
-//                    predictions.set(j, -1);
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return recommendedResidences;
-//    }
+    public List<Residence> findResidenceRecommendations(Long renterId) {
+        List<Renter> renters = renterService.findAllRenters();
+        List<Residence> residences = this.findAllResidence();
+
+        Matrix R = Matrix.zero(renters.size(), residences.size());
+
+        int renterRow = -1;
+        for (int rent = 0; rent < renters.size(); rent++) {
+            if (renters.get(rent).getId().equals(renterId)) {
+                renterRow = rent;
+            }
+            int finalRent = rent;
+            List<Reservation> reservations = reservationRepo.findReservationsByRenter_Id(renters.get(rent).getId()).orElseThrow(
+                    ()-> new ResidenceNotFoundException("Reservations for renter with id" + renters.get(finalRent).getId() + "was not found")
+            );
+            for (int res = 0; res < residences.size(); res++) {
+                for (Reservation reservation : reservations) {
+                    if (reservation.getResidence().getId().equals(residences.get(res).getId())) {
+                        R.set(rent, res, reservation.getStars());
+                        break;
+                    }
+                }
+            }
+        }
+
+        MatrixFactorization matrixFactorization = new MatrixFactorization(R, 2, 0.001);
+        matrixFactorization.train();
+    //    List<Double> predictions = matrixFactorization.getPrediction(renterRow);
+        Vector predictions = matrixFactorization.getPrediction(renterRow);
+        List<Residence> recommendedResidences = new LinkedList<>();
+        List<Reservation> renterReservations = reservationRepo.findReservationsByRenter_Id(renterId).orElseThrow(
+                ()-> new ResidenceNotFoundException("Reservations for renter with id" + renterId + "was not found")
+        );
+        for (int i = 0; i < predictions.length(); i++) {
+            for (Reservation reservation : renterReservations) {
+                if (residences.get(i).getId().equals(reservation.getResidence().getId())) {
+                    predictions.set(i, -1.0);
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            double maxVal = predictions.max();
+            for (int j = 0; j < predictions.length(); j++) {
+                if (predictions.get(j) == maxVal) {
+                    recommendedResidences.add(residences.get(j));
+                    predictions.set(j, -1);
+                    break;
+                }
+            }
+        }
+
+        return recommendedResidences;
+    }
 }

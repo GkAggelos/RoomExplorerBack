@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 import static di.uoa.roomexplorer.model.RoomType.*;
 
@@ -138,19 +137,26 @@ public class ApplicationConfig {
     @Bean
     public CommandLineRunner initMF() {
         return args -> {
-            Matrix matrix = Matrix.zero(3, 3);
+            Matrix matrix = Matrix.zero(4, 4);
             matrix.set(0, 0, 2);
             matrix.set(0, 1, 3);
             matrix.set(0, 2, 1);
-            matrix.set(1, 0, 5);
-            matrix.set(1, 1, 2);
-            matrix.set(1, 2, 3);
-            matrix.set(2, 0, 1);
-            matrix.set(2, 1, 2);
-            matrix.set(2, 2, 4);
+            matrix.set(0, 3, 0);
+            matrix.set(1, 0, 2);
+            matrix.set(1, 1, 0);
+            matrix.set(1, 2, 1);
+            matrix.set(1, 3, 2);
+            matrix.set(2, 0, 0);
+            matrix.set(2, 1, 0);
+            matrix.set(2, 2, 5);
+            matrix.set(2, 3, 2);
+            matrix.set(3, 0, 0);
+            matrix.set(3, 1, 1);
+            matrix.set(3, 2, 2);
+            matrix.set(3, 3, 4);
             System.out.println(matrix.toString());
 
-            MatrixFactorization matrixFactorization = new MatrixFactorization(matrix, 2, 0.0001);
+            MatrixFactorization matrixFactorization = new MatrixFactorization(matrix, 3, 0.0001);
             matrixFactorization.train();
             System.out.println(matrixFactorization.getFullMatrix().toString());
         };

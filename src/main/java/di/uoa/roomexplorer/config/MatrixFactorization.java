@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class MatrixFactorization {
 
-    private Matrix R;
-    private int K;
-    private double learningRate;
+    private final Matrix R;
+    private final int K;
+    private final double learningRate;
     private Matrix P;
     private Matrix Q;
 
@@ -27,14 +27,12 @@ public class MatrixFactorization {
         this.P = Matrix.random(this.R.rows(), this.K, new Random());
         this.Q = Matrix.random(this.K, this.R.columns(), new Random());
 
-//        System.out.println(P.toString());
-//        System.out.println(Q.toString());
 
-        List<List<Integer>> nonEmptyCells = new ArrayList<List<Integer>>();
+        List<List<Integer>> nonEmptyCells = new ArrayList<>();
         for (int row = 0; row < R.rows(); row++) {
             for (int col = 0; col < R.columns(); col++) {
                 if (R.get(row, col) > 0) {
-                    List<Integer> cords = new ArrayList<Integer>();
+                    List<Integer> cords = new ArrayList<>();
                     cords.add(row);
                     cords.add(col);
                     nonEmptyCells.add(cords);
@@ -46,8 +44,8 @@ public class MatrixFactorization {
 
         double rmsePrev = -2;
         double rmse = -1;
-        int count = 0;
-        while (Math.abs(rmse - rmsePrev) > 0.00008) {
+
+        while (Math.abs(rmse - rmsePrev) > 0.00005) {
             double totalSquaredError = 0;
             for (List<Integer> cords : nonEmptyCells) {
                 Vector v1 = P.getRow(cords.get(0));
@@ -61,7 +59,6 @@ public class MatrixFactorization {
                 rmse = Math.sqrt(totalSquaredError / nonEmptyCount);
             }
 
-            count++;
         }
     }
 
