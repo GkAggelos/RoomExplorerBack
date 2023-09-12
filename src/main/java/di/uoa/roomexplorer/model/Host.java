@@ -24,6 +24,17 @@ public class Host extends User {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+    public Host(String username, String password, String firstName, String lastName, String email, String phoneNumber, String photo) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.photo = photo;
+    }
+
     @OneToMany(mappedBy = "host", cascade = CascadeType.REMOVE)
     @JsonIgnore
     Set<Residence> residences;

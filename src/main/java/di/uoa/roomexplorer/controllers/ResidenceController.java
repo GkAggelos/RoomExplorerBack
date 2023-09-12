@@ -98,4 +98,10 @@ public class ResidenceController {
                                                                 roomType, parking, livingRoom, wifi,
                                                                 heating, airCondition, cuisine, tv, elevator, price, page);
     }
+
+    @GetMapping("/recommendations/{id}")
+    public ResponseEntity<List<Residence>> getRecommendedResidences(@PathVariable("id") Long renterId) {
+        List<Residence> recommendedResidences = residenceService.findResidenceRecommendations(renterId);
+        return new ResponseEntity<>(recommendedResidences, HttpStatus.OK);
+    }
 }
