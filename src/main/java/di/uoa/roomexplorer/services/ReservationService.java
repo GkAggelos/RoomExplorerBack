@@ -25,15 +25,29 @@ public class ReservationService {
     }
 
     public MessageResponse addReservation(Reservation newReservation) {
-        List<Reservation> reservations = findReservationsByRenter(newReservation.getRenter().getId());
+        if (newReservation.getArrivalDate().isBefore(newReservation.getResidence().getAvailable_from()) ||
+                newReservation.getLeaveDate().isAfter(newReservation.getResidence().getAvailable_till())) {
+            return MessageResponse.builder()
+                    .message("error not available")
+                    .build();
+        }
+
+        List<Reservation> reservations = findReservationByResidence(newReservation.getResidence().getId());
         for (Reservation reservation : reservations) {
-            if (reservation.getLeaveDate().equals(newReservation.getLeaveDate()) &&
-                reservation.getArrivalDate().equals(newReservation.getArrivalDate()) &&
-                    (reservation.getResidence().getId().equals(newReservation.getResidence().getId())) &&
+            if ((reservation.getLeaveDate().equals(newReservation.getLeaveDate()) || reservation.getArrivalDate().equals(newReservation.getArrivalDate())
+                 || (newReservation.getLeaveDate().isAfter(reservation.getArrivalDate()) && newReservation.getLeaveDate().isBefore(reservation.getLeaveDate()))
+                 || (newReservation.getArrivalDate().isAfter(reservation.getArrivalDate()) && newReservation.getArrivalDate().isBefore(reservation.getLeaveDate()))) &&
                     (reservation.getState().equals(ReservationState.PENDING) || reservation.getState().equals(ReservationState.ACCEPTED))) {
-                return MessageResponse.builder()
-                        .message("error")
-                        .build();
+                if (reservation.getRenter().getId().equals(newReservation.getRenter().getId())) {
+                    return MessageResponse.builder()
+                            .message("error already book")
+                            .build();
+                }
+                else {
+                    return MessageResponse.builder()
+                            .message("error not available")
+                            .build();
+                }
             }
         }
         reservationRepo.save(newReservation);

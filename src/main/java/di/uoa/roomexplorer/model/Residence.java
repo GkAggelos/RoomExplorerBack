@@ -2,9 +2,6 @@ package di.uoa.roomexplorer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -160,9 +157,6 @@ public class Residence {
     public void setAvailable_till(LocalDate available_till) {
         this.available_till = available_till;
     }
-//    @OneToMany(mappedBy = "residence")
-//    @JsonIgnore
-//    Set<AvailablePeriod> availablePeriods;
 
     public Long getId() {
         return id;
@@ -399,13 +393,5 @@ public class Residence {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
-
-//    public Set<AvailablePeriod> getAvailablePeriods() {
-//        return availablePeriods;
-//    }
-//
-//    public void setAvailablePeriods(Set<AvailablePeriod> availablePeriods) {
-//        this.availablePeriods = availablePeriods;
-//    }
 
 }

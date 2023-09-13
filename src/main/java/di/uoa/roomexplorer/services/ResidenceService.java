@@ -72,8 +72,6 @@ public class ResidenceService {
 
         Matrix R = Matrix.zero(renters.size(), residences.size());
 
-        // fill the matrix with review stars
-        // find the position of our renter in the list
         int renterRow = -1;
         for (int rent = 0; rent < renters.size(); rent++) {
             if (renters.get(rent).getId().equals(renterId)) {
@@ -93,12 +91,10 @@ public class ResidenceService {
             }
         }
 
-        MatrixFactorization matrixFactorization = new MatrixFactorization(R, 3, 0.0001);
+        MatrixFactorization matrixFactorization = new MatrixFactorization(R, 2, 0.001);
         matrixFactorization.train();
-        System.out.println(matrixFactorization.getFullMatrix().toString());
     //    List<Double> predictions = matrixFactorization.getPrediction(renterRow);
         Vector predictions = matrixFactorization.getPrediction(renterRow);
-        System.out.println(predictions.toString());
         List<Residence> recommendedResidences = new LinkedList<>();
         List<Reservation> renterReservations = reservationRepo.findReservationsByRenter_Id(renterId).orElseThrow(
                 ()-> new ResidenceNotFoundException("Reservations for renter with id" + renterId + "was not found")
