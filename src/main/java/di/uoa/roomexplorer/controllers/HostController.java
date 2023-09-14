@@ -37,9 +37,9 @@ public class HostController {
         return new PageResponse<>(hosts.getTotalElements(), hosts);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find")
     @RolesAllowed({"admin", "host"})
-    public ResponseEntity<Host> getHostById(@PathVariable("id") Long id) {
+    public ResponseEntity<Host> getHostById(@RequestParam Long id) {
         Host host = hostService.findHostById(id);
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
@@ -75,9 +75,9 @@ public class HostController {
         return new ResponseEntity<>(host, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     @RolesAllowed({"host"})
-    public ResponseEntity<?> deleteHost(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteHost(@RequestParam Long id) {
         hostService.deleteHost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

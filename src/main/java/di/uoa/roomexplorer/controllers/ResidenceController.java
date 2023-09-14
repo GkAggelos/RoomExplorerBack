@@ -49,15 +49,15 @@ public class ResidenceController {
 
     @GetMapping("/find/host/{id}")
     @RolesAllowed({"admin", "host"})
-    public ResponseEntity<List<Residence>> getResidenceByHostId(@PathVariable("id") Long host_id) {
+    public ResponseEntity<List<Residence>> getResidencesByHostId(@PathVariable("id") Long host_id) {
         List<Residence> residences = residenceService.findResidencesByHostId(host_id);
         return new ResponseEntity<>(residences, HttpStatus.OK);
     }
 
-    @GetMapping("/find/host/{id}/{page}")
+    @GetMapping("/find/host/page/{page}")
     @RolesAllowed({"host", "admin"})
-    public PageResponse<Page<Residence>> getResidenceByHostIdPagination(@PathVariable("id") Long host_id, @PathVariable("page") int page) {
-        Page<Residence> residences = residenceService.findResidencesByHostIdPagination(host_id, page);
+    public PageResponse<Page<Residence>> getResidencesByHostIdPagination(@RequestParam Long id, @PathVariable("page") int page) {
+        Page<Residence> residences = residenceService.findResidencesByHostIdPagination(id, page);
         return new PageResponse<>(residences.getTotalElements(), residences);
     }
 

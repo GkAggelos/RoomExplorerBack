@@ -65,10 +65,10 @@ public class ReservationController {
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
-    @GetMapping("/find/renter/{id}/{page}")
+    @GetMapping("/find/renter/page/{page}")
     @RolesAllowed({"renter"})
-    public PageResponse<Page<Reservation>> getReservationsByRenter_idPagination(@PathVariable("id") Long renter_id, @PathVariable("page") int page) {
-        Page<Reservation> reservations = reservationService.findReservationsByRenterPagination(renter_id, page);
+    public PageResponse<Page<Reservation>> getReservationsByRenter_idPagination(@RequestParam Long id, @PathVariable("page") int page) {
+        Page<Reservation> reservations = reservationService.findReservationsByRenterPagination(id, page);
 
         return new PageResponse<>(reservations.getTotalElements(), reservations);
     }
