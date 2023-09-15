@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @RestController
@@ -38,9 +37,9 @@ public class RenterController {
         return new PageResponse<>(renters.getTotalElements(), renters);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/find/{id}")
     @RolesAllowed({"admin", "renter"})
-    public ResponseEntity<Renter> getRenterById(@RequestParam Long id) {
+    public ResponseEntity<Renter> getRenterById(@PathVariable("id") Long id) {
         Renter renter = renterService.findRenterById(id);
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }

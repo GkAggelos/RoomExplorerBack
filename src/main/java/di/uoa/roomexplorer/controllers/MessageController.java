@@ -36,10 +36,10 @@ public class MessageController {
         return new PageResponse<>(messages.getTotalElements(), messages);
     }
 
-    @GetMapping("/find/renter/{page}")
+    @GetMapping("/find/renter/{renter_id}/{page}")
     @RolesAllowed({"renter"})
-    public PageResponse<Page<Message>> getMessagesByRenterIdPagination(@RequestParam Long id, @PathVariable("page") int page) {
-        Page<Message> messages = messageService.findMessagesByRenter_idPagination(id, page);
+    public PageResponse<Page<Message>> getMessagesByRenterIdPagination(@PathVariable("renter_id") Long renter_id, @PathVariable("page") int page) {
+        Page<Message> messages = messageService.findMessagesByRenter_idPagination(renter_id, page);
         return new PageResponse<>(messages.getTotalElements(), messages);
     }
 

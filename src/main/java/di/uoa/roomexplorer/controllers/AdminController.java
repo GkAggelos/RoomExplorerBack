@@ -16,9 +16,9 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/find")
+    @GetMapping("/find/{id}")
     @RolesAllowed({"admin"})
-    public Admin getAdminById(@RequestParam Long id) {
+    public Admin getAdminById(@PathVariable("id") Long id) {
         return adminService.findAdminById(id);
     }
 

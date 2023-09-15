@@ -20,13 +20,11 @@ public class MatrixFactorization {
         R = r;
         K = k;
         this.learningRate = learningRate;
+        this.P = Matrix.random(this.R.rows(), this.K, new Random());
+        this.Q = Matrix.random(this.K, this.R.columns(), new Random());
     }
 
     public void train() {
-
-        this.P = Matrix.random(this.R.rows(), this.K, new Random());
-        this.Q = Matrix.random(this.K, this.R.columns(), new Random());
-
 
         List<List<Integer>> nonEmptyCells = new ArrayList<>();
         for (int row = 0; row < R.rows(); row++) {
@@ -63,13 +61,6 @@ public class MatrixFactorization {
     }
 
     public Vector getPrediction(int i) {
-//        Vector predictions = this.P.getRow(i).multiply(this.Q);
-//        List<Double> predictionsList = new ArrayList<>();
-//        for (double value : predictions) {
-//            predictionsList.add(value);
-//        }
-//
-//        return predictionsList;
         return this.P.getRow(i).multiply(this.Q);
     }
 

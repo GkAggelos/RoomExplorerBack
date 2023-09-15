@@ -18,10 +18,12 @@ public class ReservationService {
 
     private final ReservationRepo reservationRepo;
     private final ResidenceService residenceService;
+    private final MatrixFactorizationService matrixFactorizationService;
 
-    public ReservationService(ReservationRepo reservationRepo, ResidenceService residenceService) {
+    public ReservationService(ReservationRepo reservationRepo, ResidenceService residenceService, MatrixFactorizationService matrixFactorizationService) {
         this.reservationRepo = reservationRepo;
         this.residenceService = residenceService;
+        this.matrixFactorizationService = matrixFactorizationService;
     }
 
     public MessageResponse addReservation(Reservation newReservation) {
@@ -107,6 +109,9 @@ public class ReservationService {
             int average = star_sum / reservation.getResidence().getReviewsNumber();
             newReservation.getResidence().setStarsAverage(average);
         }
+
+        matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
+        matrixFactorizationService.train();
         residenceService.updateResidence(newReservation.getResidence());
         return reservationRepo.save(newReservation);
     }
