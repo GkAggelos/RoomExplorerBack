@@ -32,13 +32,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt;
             final String username;
             final String role;
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            final String id;
+            final Long requestId;
+            final Long userId;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
             jwt = authHeader.substring(7);
             username = jwtService.extractUsername(jwt);
             role = jwtService.extractRole(jwt);
+
+            if ((id = request.getParameter("id")) != null) {
+                requestId = Long.parseLong(id);
+                userId = jwtService.extractId(jwt);
+                if (!requestId.equals(userId) && !role.equals("admin")) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            }
+
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = this.userService.findByUsername(username, role).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
                 if (jwtService.isTokenValid(jwt, user)) {

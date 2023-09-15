@@ -37,9 +37,9 @@ public class RenterController {
         return new PageResponse<>(renters.getTotalElements(), renters);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find")
     @RolesAllowed({"admin", "renter"})
-    public ResponseEntity<Renter> getRenterById(@PathVariable("id") Long id) {
+    public ResponseEntity<Renter> getRenterById(@RequestParam Long id) {
         Renter renter = renterService.findRenterById(id);
         return new ResponseEntity<>(renter, HttpStatus.OK);
     }
