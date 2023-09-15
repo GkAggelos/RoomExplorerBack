@@ -21,7 +21,7 @@ public class ResidenceService {
     private final ReservationRepo reservationRepo;
     private final MatrixFactorizationService matrixFactorizationService;
 
-    public ResidenceService(ResidenceRepo residenceRepo, RenterService renterService, ReservationRepo reservationRepo, MatrixFactorizationService matrixFactorizationService) {
+    public ResidenceService(ResidenceRepo residenceRepo, ReservationRepo reservationRepo, MatrixFactorizationService matrixFactorizationService) {
         this.residenceRepo = residenceRepo;
         this.reservationRepo = reservationRepo;
         this.matrixFactorizationService = matrixFactorizationService;
@@ -127,8 +127,6 @@ public class ResidenceService {
         for (Long residenceId : reservedResidenceIds) {
             reservedResidenceIndexes.add(residencesId.indexOf(residenceId));
         }
-
-        System.out.println(reservedResidenceIndexes);
 
         List<Integer> recommendedResidenceIndexes = matrixFactorizationService.getPredictions(renterId, reservedResidenceIndexes);
         List<Residence> recommendedResidences = new LinkedList<>();

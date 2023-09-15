@@ -103,15 +103,17 @@ public class ReservationService {
             int average = star_sum / (reservation.getResidence().getReviewsNumber() + 1);
             newReservation.getResidence().setStarsAverage(average);
             newReservation.getResidence().setReviewsNumber(reservation.getResidence().getReviewsNumber() + 1);
+            matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
+            matrixFactorizationService.train();
         }
         else if (reservation.getReview() != null && !newReservation.getReview().equals("")){
             star_sum = star_sum - reservation.getStars() + newReservation.getStars();
             int average = star_sum / reservation.getResidence().getReviewsNumber();
             newReservation.getResidence().setStarsAverage(average);
+            matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
+            matrixFactorizationService.train();
         }
 
-        matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
-        matrixFactorizationService.train();
         residenceService.updateResidence(newReservation.getResidence());
         return reservationRepo.save(newReservation);
     }
