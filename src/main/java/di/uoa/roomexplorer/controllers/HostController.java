@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class HostController {
 
     @GetMapping("/find/{id}")
     @RolesAllowed({"admin", "host"})
+    @PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<Host> getHostById(@PathVariable("id") Long id) {
         Host host = hostService.findHostById(id);
         return new ResponseEntity<>(host, HttpStatus.OK);

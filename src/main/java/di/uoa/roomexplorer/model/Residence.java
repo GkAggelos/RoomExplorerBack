@@ -79,27 +79,27 @@ public class Residence {
     @Column(nullable = false)
     LocalDate available_till;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_living_room;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_wifi;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_heating;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_air_condition;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_cuisine;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_tv;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_parking;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="BOOL")
     Boolean has_elevator;
 
     @OneToMany(mappedBy = "residence", cascade = CascadeType.REMOVE)

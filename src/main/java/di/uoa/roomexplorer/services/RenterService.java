@@ -13,13 +13,18 @@ import java.util.List;
 @Service
 public class RenterService {
     private final RenterRepo renterRepo;
+    private final MatrixFactorizationService matrixFactorizationService;
 
-    public RenterService(RenterRepo renterRepo) {
+    public RenterService(RenterRepo renterRepo, MatrixFactorizationService matrixFactorizationService) {
         this.renterRepo = renterRepo;
+        this.matrixFactorizationService = matrixFactorizationService;
     }
+
     public Renter addRenter(Renter newRenter) {
+        matrixFactorizationService.addRow();
         return renterRepo.save(newRenter);
     }
+
     public List<Renter> findAllRenters() {
         return renterRepo.findAll();
     }

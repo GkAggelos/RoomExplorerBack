@@ -16,8 +16,8 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        prePostEnabled = false,
-        securedEnabled = false,
+        prePostEnabled = true,
+        securedEnabled = true,
         jsr250Enabled = true
 )
 @RequiredArgsConstructor
