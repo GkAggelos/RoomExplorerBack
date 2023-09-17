@@ -21,8 +21,12 @@ public class RenterService {
     }
 
     public Renter addRenter(Renter newRenter) {
-        matrixFactorizationService.addRow();
-        return renterRepo.save(newRenter);
+        newRenter = renterRepo.save(newRenter);
+        int newRenterIndex = renterRepo.findAllRenterId().indexOf(newRenter.getId());
+        System.out.println(newRenterIndex);
+        matrixFactorizationService.addRow(newRenterIndex);
+
+        return newRenter;
     }
 
     public List<Renter> findAllRenters() {

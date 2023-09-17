@@ -1,5 +1,7 @@
 package di.uoa.roomexplorer.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.la4j.Matrix;
 import org.la4j.Vector;
 
@@ -12,6 +14,7 @@ public class MatrixFactorization {
     private final Matrix R;
     private final int K;
     private final double learningRate;
+    @Getter @Setter
     private Matrix P;
     private Matrix Q;
 

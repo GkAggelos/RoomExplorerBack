@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface RenterRepo extends JpaRepository<Renter, Long> {
     Optional<Renter> findRenterByUsername(String username);
 
-    @Query("SELECT r.id FROM Renter r")
+    @Query("SELECT r.id FROM Renter r ORDER BY r.id")
     List<Long> findAllRenterId();
 }

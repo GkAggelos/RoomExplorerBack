@@ -8,6 +8,7 @@ import di.uoa.roomexplorer.model.User;
 import di.uoa.roomexplorer.repositories.HostRepo;
 import di.uoa.roomexplorer.repositories.RenterRepo;
 import di.uoa.roomexplorer.services.HostService;
+import di.uoa.roomexplorer.services.RenterService;
 import di.uoa.roomexplorer.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final HostRepo hostRepo;
     private final HostService hostService;
-    private final RenterRepo renterRepo;
+    private final RenterService renterService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -44,8 +44,8 @@ public class AuthenticationService {
                     request.getLastName(),
                     request.getEmail(),
                     request.getPhoneNumber());
-            hostRepo.save(host);
-            renter = renterRepo.save(renter);
+            hostService.addHost(host);
+            renter = renterService.addRenter(renter);
             jwtToken = jwtService.generateToken(renter.getUsername(), renter.getId(), "renter");
         }
         if (request.getRole().equals("host")) {
@@ -55,7 +55,7 @@ public class AuthenticationService {
                     request.getLastName(),
                     request.getEmail(),
                     request.getPhoneNumber());
-            host = hostRepo.save(host);
+            host = hostService.addHost(host);
             jwtToken = jwtService.generateToken(host.getUsername(), host.getId(), request.getRole());
         }
         if (request.getRole().equals("renter")) {
@@ -65,7 +65,7 @@ public class AuthenticationService {
                     request.getLastName(),
                     request.getEmail(),
                     request.getPhoneNumber());
-            renter = renterRepo.save(renter);
+            renter = renterService.addRenter(renter);
             jwtToken = jwtService.generateToken(renter.getUsername(), renter.getId(), request.getRole());
         }
         return AuthenticationResponse.builder()

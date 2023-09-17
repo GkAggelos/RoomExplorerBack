@@ -3,6 +3,7 @@ package di.uoa.roomexplorer.services;
 import di.uoa.roomexplorer.config.MatrixFactorization;
 import di.uoa.roomexplorer.repositories.RenterRepo;
 import di.uoa.roomexplorer.repositories.ResidenceRepo;
+import lombok.Getter;
 import org.la4j.Matrix;
 import org.la4j.Vector;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MatrixFactorizationService {
 
     private MatrixFactorization matrixFactorization;
+    @Getter
     private Matrix matrix;
 
 
@@ -30,14 +32,27 @@ public class MatrixFactorizationService {
         this.residenceRepo = residenceRepo;
     }
 
-    public void addRow() {
-        this.matrix = this.matrix.insertRow(this.matrix.rows()-1, Vector.zero(this.matrix.columns()));
-        this.matrix.swapRows(this.matrix.rows()-1, this.matrix.rows()-2);
+    public void addRow(int renterIndex) {
+
+        if (renterIndex == this.matrix.rows()) {
+            this.matrix = this.matrix.insertRow(this.matrix.rows()-1, Vector.zero(this.matrix.columns()));
+            this.matrix.swapRows(this.matrix.rows()-1, this.matrix.rows()-2);
+
+            Matrix myP = this.matrixFactorization.getP();
+            myP = myP.insertRow(myP.rows()-1, Vector.zero(myP.columns()));
+            myP.swapRows(myP.rows()-1, myP.rows()-2);
+            this.matrixFactorization.setP(myP);
+        }
+        else {
+            this.matrix = this.matrix.insertRow(renterIndex, Vector.zero(this.matrix.columns()));
+            this.matrixFactorization.setP(this.matrixFactorization.getP().insertRow(renterIndex, Vector.zero(this.matrixFactorization.getP().columns())));
+        }
     }
 
     public void addColumn() {
         this.matrix = this.matrix.insertColumn(this.matrix.columns()-1, Vector.zero(this.matrix.rows()));
         this.matrix.swapColumns(this.matrix.columns()-1, this.matrix.columns()-2);
+//        System.out.println(this.matrix.toString());
     }
 
     public void updateCellIndex(int renterIndex, int residenceIndex, int stars) {
@@ -85,5 +100,9 @@ public class MatrixFactorizationService {
         }
 
         return recommendedResidenceIndexes;
+    }
+
+    public Matrix getFullMatrix() {
+        return this.matrixFactorization.getFullMatrix();
     }
 }

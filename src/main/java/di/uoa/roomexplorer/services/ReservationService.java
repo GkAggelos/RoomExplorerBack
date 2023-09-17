@@ -106,7 +106,7 @@ public class ReservationService {
             matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
             matrixFactorizationService.train();
         }
-        else if (reservation.getReview() != null && !newReservation.getReview().equals("")){
+        else if (reservation.getReview() != null && !reservation.getReview().equals("") && !newReservation.getReview().equals("") && !reservation.getReview().equals(newReservation.getReview())) {
             star_sum = star_sum - reservation.getStars() + newReservation.getStars();
             int average = star_sum / reservation.getResidence().getReviewsNumber();
             newReservation.getResidence().setStarsAverage(average);
