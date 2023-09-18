@@ -75,10 +75,10 @@ public class ResidenceService {
         if (!hasReservations) {
             List<Long> searchedResidenceIds = searchService.findResidenceIdsByRenterId(renterId);
             for (Long searchedResidenceId : searchedResidenceIds) {
-                matrixFactorizationService.updateCellId(renterId, searchedResidenceId, 5);
+                matrixFactorizationService.updateCellId(renterId, searchedResidenceId, 3);
             }
             matrixFactorizationService.train();
-            reservedResidenceIds = searchedResidenceIds;
+//            reservedResidenceIds = searchedResidenceIds;
         }
 
         List<Long> residencesId = residenceRepo.findAllResidenceId();

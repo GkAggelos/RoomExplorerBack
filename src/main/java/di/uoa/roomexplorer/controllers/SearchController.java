@@ -3,11 +3,13 @@ package di.uoa.roomexplorer.controllers;
 import di.uoa.roomexplorer.model.Search;
 import di.uoa.roomexplorer.services.SearchService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Transactional
 @RequestMapping("search-history")
 public class SearchController {
     private final SearchService searchService;

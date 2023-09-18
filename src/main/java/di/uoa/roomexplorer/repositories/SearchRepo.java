@@ -1,7 +1,5 @@
 package di.uoa.roomexplorer.repositories;
 
-import di.uoa.roomexplorer.model.Renter;
-import di.uoa.roomexplorer.model.Residence;
 import di.uoa.roomexplorer.model.Search;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
