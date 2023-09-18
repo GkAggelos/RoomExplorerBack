@@ -75,6 +75,11 @@ public class ReservationService {
         return reservationRepo.findReservationsByResidence_Id(residence_id, PageRequest.of(page, 10)).
                 orElseThrow(() -> new ReservationNotFoundException("Reservations for residence by id " + residence_id + " were not found"));
     }
+
+    public Page<Reservation> findReservationByResidencePaginationForReview(Long residence_id, int page) {
+        return reservationRepo.findReservationsByResidence_IdForReview(residence_id, PageRequest.of(page, 10)).
+                orElseThrow(() -> new ReservationNotFoundException("Reservations for residence by id " + residence_id + " were not found"));
+    }
     public List<Reservation> findReservationsByRenter(Long renter_id) {
         return reservationRepo.findReservationsByRenter_Id(renter_id).
                 orElseThrow(() -> new ReservationNotFoundException("Reservations for renter by id " + renter_id + " were not found"));

@@ -13,6 +13,9 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
 
     Optional<Page<Reservation>> findReservationsByResidence_Id(Long residenceId, Pageable pageable);
 
+    @Query("SELECT r FROM Reservation r WHERE r.residence.id = ?1 AND r.review != '' AND r.review != null")
+    Optional<Page<Reservation>> findReservationsByResidence_IdForReview(Long residenceId, Pageable pageable);
+
     Optional<List<Reservation>> findReservationsByResidence_Id(Long residenceId);
 
     Optional<List<Reservation>> findReservationsByRenter_Id(Long renterId);
