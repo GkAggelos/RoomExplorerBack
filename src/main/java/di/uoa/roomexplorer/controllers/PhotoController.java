@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/photo")
 public class PhotoController {
@@ -19,12 +17,6 @@ public class PhotoController {
     @Autowired
     public PhotoController(PhotoService photoService) {
         this.photoService = photoService;
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Photo>> getAllPhotos() {
-        List<Photo> photos = photoService.findAllPhotos();
-        return new ResponseEntity<>(photos, HttpStatus.OK);
     }
 
     @PostMapping("/add")

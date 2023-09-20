@@ -2,10 +2,14 @@ package di.uoa.roomexplorer.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,53 +35,5 @@ public class Message {
 
     @Column(nullable = false)
     Date date;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Residence getResidence() {
-        return residence;
-    }
-
-    public void setResidence(Residence residence) {
-        this.residence = residence;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Renter getRenter() {
-        return renter;
-    }
-
-    public void setRenter(Renter renter) {
-        this.renter = renter;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
 }

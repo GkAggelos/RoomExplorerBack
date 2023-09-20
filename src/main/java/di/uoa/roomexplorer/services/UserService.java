@@ -32,16 +32,26 @@ public class UserService {
         Host host;
         Renter renter;
         Admin admin;
+
         if (role.equals("host")) {
             host = hostRepo.findHostByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
+            if (!host.getUsername().equals(username)) {
+                throw new UserNotFoundException("User with name" + username + "was not found");
+            }
             user = new User(host.getId(), host.getUsername(),host.getPassword(), host.getFirstName(), host.getLastName(), host.getEmail(), host.getPhoneNumber(), host.getPhoto(), "host");
         }
         if (role.equals("renter")) {
             renter = renterRepo.findRenterByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
+            if (!renter.getUsername().equals(username)) {
+                throw new UserNotFoundException("User with name" + username + "was not found");
+            }
             user = new User(renter.getId(), renter.getUsername(),renter.getPassword(), renter.getFirstName(), renter.getLastName(), renter.getEmail(), renter.getPhoneNumber(), renter.getPhoto(), "renter");
         }
         if (role.equals("admin")) {
             admin = adminRepo.findAdminByUsername(username).orElseThrow(() -> new UserNotFoundException("User with name" + username + "was not found"));
+            if (!admin.getUsername().equals(username)) {
+                throw new UserNotFoundException("User with name" + username + "was not found");
+            }
             user = new User(admin.getId(), admin.getUsername(), admin.getPassword(), admin.getFirstName(), admin.getLastName(), admin.getEmail(), admin.getPhoneNumber(), admin.getPhoto(), "admin");
         }
         return Optional.of(user);

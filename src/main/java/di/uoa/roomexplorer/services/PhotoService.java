@@ -4,8 +4,6 @@ import di.uoa.roomexplorer.model.Photo;
 import di.uoa.roomexplorer.repositories.PhotoRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class PhotoService {
 
@@ -15,10 +13,6 @@ public class PhotoService {
 
     public Photo addPhoto(Photo newPhoto) {
         return photoRepo.save(newPhoto);
-    }
-
-    public List<Photo> findAllPhotos() {
-        return photoRepo.findAll();
     }
 
     public void deletePhoto(Long id) {

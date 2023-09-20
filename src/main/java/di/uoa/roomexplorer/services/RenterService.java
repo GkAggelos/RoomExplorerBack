@@ -39,31 +39,23 @@ public class RenterService {
 
     public List<String> findAllUsernames() {
         List<Renter> renters = findAllRenters();
-        List<String> usernames = new ArrayList<String>();
-        for (int i = 0; i < renters.size(); i++) {
-            usernames.add(renters.get(i).getUsername());
+        List<String> usernames = new ArrayList<>();
+        for (Renter renter : renters) {
+            usernames.add(renter.getUsername());
         }
         return usernames;
     }
 
     public List<String> findAllEmails() {
         List<Renter> renters = findAllRenters();
-        List<String> emails  = new ArrayList<String>();
-        for (int i = 0; i < renters.size(); i++) {
-            emails.add(renters.get(i).getEmail());
+        List<String> emails  = new ArrayList<>();
+        for (Renter renter : renters) {
+            emails.add(renter.getEmail());
         }
         return emails;
     }
     public Renter findRenterById(Long id) {
         return renterRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
     }
-    public Renter findRenterByUsername(String username) {
-        return renterRepo.findRenterByUsername(username).orElseThrow(() -> new UserNotFoundException("User by username" + username + " was not found"));
-    }
-    public Renter updateRenter(Renter newrenter) {
-        return renterRepo.save(newrenter);
-    }
-    public void deleteRenter(Long id) {
-        renterRepo.deleteById(id);
-    }
+
 }

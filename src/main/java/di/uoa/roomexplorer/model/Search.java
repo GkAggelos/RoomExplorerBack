@@ -1,7 +1,11 @@
 package di.uoa.roomexplorer.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Search {
 
@@ -17,34 +21,4 @@ public class Search {
     Residence residence;
 
     public Search() {}
-
-    public Search(Long id, Renter renter, Residence residence) {
-        this.id = id;
-        this.renter = renter;
-        this.residence = residence;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Renter getRenter() {
-        return renter;
-    }
-
-    public void setRenter(Renter renter) {
-        this.renter = renter;
-    }
-
-    public Residence getResidence() {
-        return residence;
-    }
-
-    public void setResidence(Residence residence) {
-        this.residence = residence;
-    }
 }

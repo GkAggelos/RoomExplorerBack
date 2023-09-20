@@ -30,12 +30,6 @@ public class ReservationController {
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
-    @RolesAllowed({"admin"})
-    public ResponseEntity<List<Reservation>> getAllReservations() {
-        List<Reservation> reservations = reservationService.findAllReservations();
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
-    }
     @GetMapping("/find/{id}")
     @RolesAllowed({"renter"})
     public ResponseEntity<Reservation> getReservationById(@PathVariable("id") Long id) {
@@ -52,6 +46,7 @@ public class ReservationController {
     }
 
     @GetMapping("/find/residence/{id}/{page}")
+    @RolesAllowed({"host", "admin"})
     public PageResponse<Page<Reservation>> getReservationsByResidence_idPagination(@PathVariable("id") Long residence_id, @PathVariable("page") int page) {
         Page<Reservation> reservations = reservationService.findReservationByResidencePagination(residence_id, page);
 
@@ -85,13 +80,6 @@ public class ReservationController {
     public ResponseEntity<Reservation> updateReservation(@RequestBody Reservation newReservation) {
         Reservation reservation = reservationService.updateReservation(newReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @RolesAllowed({"renter", "host"})
-    public ResponseEntity<?> deleteReservation(@PathVariable("id") Long id) {
-        reservationService.deleteReservationById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/find/host/{id}")

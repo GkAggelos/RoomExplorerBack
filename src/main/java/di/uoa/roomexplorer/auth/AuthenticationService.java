@@ -5,8 +5,6 @@ import di.uoa.roomexplorer.exception.UserNotFoundException;
 import di.uoa.roomexplorer.model.Host;
 import di.uoa.roomexplorer.model.Renter;
 import di.uoa.roomexplorer.model.User;
-import di.uoa.roomexplorer.repositories.HostRepo;
-import di.uoa.roomexplorer.repositories.RenterRepo;
 import di.uoa.roomexplorer.services.HostService;
 import di.uoa.roomexplorer.services.RenterService;
 import di.uoa.roomexplorer.services.UserService;

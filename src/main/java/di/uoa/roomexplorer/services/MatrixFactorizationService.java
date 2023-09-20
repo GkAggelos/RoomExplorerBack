@@ -47,8 +47,6 @@ public class MatrixFactorizationService {
             this.matrix = this.matrix.insertRow(renterIndex, Vector.zero(this.matrix.columns()));
             this.matrixFactorization.setP(this.matrixFactorization.getP().insertRow(renterIndex, Vector.zero(this.matrixFactorization.getP().columns())));
         }
-
-        System.out.println(this.matrix.toString());
     }
 
     public void addColumn(int residenceIndex) {
@@ -66,7 +64,6 @@ public class MatrixFactorizationService {
             this.matrix = this.matrix.insertColumn(residenceIndex, Vector.zero(this.matrix.rows()));
             this.matrixFactorization.setQ(this.matrixFactorization.getQ().insertColumn(residenceIndex, Vector.zero(this.matrixFactorization.getQ().rows())));
         }
-        System.out.println(this.matrix.toString());
     }
 
     public void updateCellIndex(int renterIndex, int residenceIndex, int stars) {
@@ -114,9 +111,5 @@ public class MatrixFactorizationService {
         }
 
         return recommendedResidenceIndexes;
-    }
-
-    public Matrix getFullMatrix() {
-        return this.matrixFactorization.getFullMatrix();
     }
 }

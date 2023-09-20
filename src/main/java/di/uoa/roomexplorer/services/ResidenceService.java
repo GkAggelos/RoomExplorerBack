@@ -37,10 +37,6 @@ public class ResidenceService {
         return newResidence;
     }
 
-    public List<Residence> findAllResidence() {
-        return residenceRepo.findAll();
-    }
-
     public  Residence findResidenceById(Long id) { return residenceRepo.findById(id)
             .orElseThrow(() -> new ResidenceNotFoundException("Residence by id " + id + " was not found")); }
 

@@ -30,7 +30,7 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
                 "r.available_from <= ?2 AND r.available_till >= ?3 AND " +
                 "r.peopleCapacity>=?4 ";
 
-        if (price != "") {
+        if (!price.isEmpty()) {
             if (price.equals("priceLess50")) {
                 stringQuery = stringQuery.concat("AND r.pricing <= 50.0 ");
                 stringCountQuery = stringCountQuery.concat("AND r.pricing <= 50.0 ");
@@ -61,7 +61,7 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
             }
         }
 
-        if (roomType != "") {
+        if (!roomType.isEmpty()) {
             stringQuery = stringQuery.concat("AND ( ");
             stringCountQuery = stringCountQuery.concat("AND ( ");
             if (roomType.indexOf('p') != -1) {
@@ -155,8 +155,6 @@ public class ResidenceRepoImpl implements CustomResidenceRepo {
 
         List<Residence> residences = query.getResultList();
 
-        PageResponse<List<Residence>> pageResponse = new PageResponse<>(recordCount, residences);
-
-        return pageResponse;
+        return new PageResponse<>(recordCount, residences);
     }
 }

@@ -23,16 +23,9 @@ public class RenterController {
         this.renterService = renterService;
     }
 
-    @GetMapping("/all")
-    @RolesAllowed({"admin"})
-    public ResponseEntity<List<Renter>> getAllRenters() {
-        List<Renter> renters = renterService.findAllRenters();
-        return new ResponseEntity<>(renters, HttpStatus.OK);
-    }
-
     @GetMapping("/all/{page}")
     @RolesAllowed({"admin"})
-    public PageResponse<Page<Renter>> getAllHosts(@PathVariable("page") int page) {
+    public PageResponse<Page<Renter>> getAllRentersPagination(@PathVariable("page") int page) {
         Page<Renter> renters = renterService.findAllRentersPagination(page);
         return new PageResponse<>(renters.getTotalElements(), renters);
     }
@@ -54,31 +47,5 @@ public class RenterController {
     public ResponseEntity<List<String>> getAllEmails() {
         List<String> emails = renterService.findAllEmails();
         return new ResponseEntity<>(emails,HttpStatus.OK);
-    }
-
-    @GetMapping("/find/username/{username}")
-    public ResponseEntity<Renter> getRenterByUsername(@PathVariable("username") String username) {
-        Renter renter = renterService.findRenterByUsername(username);
-        return new ResponseEntity<>(renter, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Renter> addRenter(@RequestBody Renter newrenter) {
-        Renter renter = renterService.addRenter(newrenter);
-        return new ResponseEntity<>(renter, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/update")
-    @RolesAllowed({"renter"})
-    public ResponseEntity<Renter> updateRenter(@RequestBody Renter newrenter) {
-        Renter renter = renterService.updateRenter(newrenter);
-        return new ResponseEntity<>(renter, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @RolesAllowed({"renter"})
-    public ResponseEntity<Renter> deleteRenter(@PathVariable("id") Long id) {
-        renterService.deleteRenter(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

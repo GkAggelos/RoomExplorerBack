@@ -30,18 +30,18 @@ public class HostService {
 
     public List<String> findAllUsernames() {
         List<Host> hosts = findAllHosts();
-        List<String> usernames = new ArrayList<String>();
-        for (int i = 0; i < hosts.size(); i++) {
-            usernames.add(hosts.get(i).getUsername());
+        List<String> usernames = new ArrayList<>();
+        for (Host host : hosts) {
+            usernames.add(host.getUsername());
         }
         return usernames;
     }
 
     public List<String> findAllEmails() {
         List<Host> hosts = findAllHosts();
-        List<String> emails  = new ArrayList<String>();
-        for (int i = 0; i < hosts.size(); i++) {
-            emails.add(hosts.get(i).getEmail());
+        List<String> emails  = new ArrayList<>();
+        for (Host host : hosts) {
+            emails.add(host.getEmail());
         }
         return emails;
     }
@@ -57,10 +57,8 @@ public class HostService {
         Host host = findByUsername(username);
         return host.getApproved();
     }
+
     public Host updateHost(Host newHost) {
         return hostRepo.save(newHost);
-    }
-    public void deleteHost(Long id) {
-        hostRepo.deleteById(id);
     }
 }

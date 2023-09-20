@@ -1,7 +1,11 @@
 package di.uoa.roomexplorer.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Photo {
 
@@ -15,28 +19,4 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "residence_id", nullable = false)
     Residence residence;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Residence getResidence() {
-        return residence;
-    }
-
-    public void setResidence(Residence residence) {
-        this.residence = residence;
-    }
 }

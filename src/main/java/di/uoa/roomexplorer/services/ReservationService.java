@@ -58,10 +58,6 @@ public class ReservationService {
                 .build();
     }
 
-    public List<Reservation> findAllReservations() {
-        return reservationRepo.findAll();
-    }
-
     public Reservation findReservationById(Long id) {
         return reservationRepo.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation by id " + id + " was not found"));
     }
@@ -103,7 +99,7 @@ public class ReservationService {
         Reservation reservation = findReservationById(newReservation.getId());
 
         int star_sum = reservation.getResidence().getStarsAverage() * reservation.getResidence().getReviewsNumber();
-        if (reservation.getReview() != null && reservation.getReview().equals("") && !newReservation.getReview().equals("")) {
+        if (reservation.getReview() != null && reservation.getReview().isEmpty() && !newReservation.getReview().isEmpty()) {
             star_sum = star_sum + newReservation.getStars();
             int average = star_sum / (reservation.getResidence().getReviewsNumber() + 1);
             newReservation.getResidence().setStarsAverage(average);
@@ -111,7 +107,7 @@ public class ReservationService {
             matrixFactorizationService.updateCellId(newReservation.getRenter().getId(), newReservation.getResidence().getId(), newReservation.getStars());
             matrixFactorizationService.train();
         }
-        else if (reservation.getReview() != null && !reservation.getReview().equals("") && !newReservation.getReview().equals("") && !reservation.getReview().equals(newReservation.getReview())) {
+        else if (reservation.getReview() != null && !reservation.getReview().isEmpty() && !newReservation.getReview().isEmpty() && !reservation.getReview().equals(newReservation.getReview())) {
             star_sum = star_sum - reservation.getStars() + newReservation.getStars();
             int average = star_sum / reservation.getResidence().getReviewsNumber();
             newReservation.getResidence().setStarsAverage(average);
@@ -121,9 +117,5 @@ public class ReservationService {
 
         residenceService.updateResidence(newReservation.getResidence());
         return reservationRepo.save(newReservation);
-    }
-
-    public void deleteReservationById(Long id) {
-        reservationRepo.deleteById(id);
     }
 }

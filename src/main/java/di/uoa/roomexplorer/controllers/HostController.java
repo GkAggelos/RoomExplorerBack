@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +21,6 @@ public class HostController {
     @Autowired
     public HostController(HostService hostService) {
         this.hostService = hostService;
-    }
-
-    @GetMapping("/all")
-    @RolesAllowed({"admin"})
-    public ResponseEntity<List<Host>> getAllHosts() {
-        List<Host> hosts = hostService.findAllHosts();
-        return new ResponseEntity<>(hosts, HttpStatus.OK);
     }
 
     @GetMapping("/all/{page}")
@@ -57,29 +49,10 @@ public class HostController {
         return new ResponseEntity<>(emails,HttpStatus.OK);
     }
 
-    @GetMapping("/find/username/{username}")
-    public ResponseEntity<Host> getHostByUsername(@PathVariable("username") String username) {
-        Host host = hostService.findByUsername(username);
-        return new ResponseEntity<>(host, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Host> addHost(@RequestBody Host newhost) {
-        Host host = hostService.addHost(newhost);
-        return new ResponseEntity<>(host, HttpStatus.CREATED);
-    }
-
     @PutMapping("/update")
     @RolesAllowed({"admin", "host"})
     public ResponseEntity<Host> updateHost(@RequestBody Host newhost) {
         Host host = hostService.updateHost(newhost);
         return new ResponseEntity<>(host, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete")
-    @RolesAllowed({"host"})
-    public ResponseEntity<?> deleteHost(@RequestParam Long id) {
-        hostService.deleteHost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

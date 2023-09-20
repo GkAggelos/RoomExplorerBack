@@ -33,14 +33,6 @@ public class ResidenceController {
         return new ResponseEntity<>(residence, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
-    @RolesAllowed({"admin"})
-    public ResponseEntity<List<Residence>> getAllResidences() {
-        List<Residence> residences = residenceService.findAllResidence();
-        return new ResponseEntity<>(residences, HttpStatus.OK);
-    }
-
-
     @GetMapping("/find/{id}")
     public ResponseEntity<Residence> getResidenceById(@PathVariable("id") Long id) {
         Residence residence = residenceService.findResidenceById(id);

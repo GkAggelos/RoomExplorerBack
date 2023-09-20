@@ -6,13 +6,7 @@ public enum RoomType {
     SHARED("Shared room"),
     HOUSE("Whole building");
 
-    private final String type;
+    final String type;
 
-    RoomType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return this.type;
-    }
+    RoomType(String type) { this.type = type; }
 }

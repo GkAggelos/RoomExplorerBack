@@ -4,12 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Renter extends User {
@@ -30,23 +34,6 @@ public class Renter extends User {
     @OneToMany(mappedBy = "renter", cascade = CascadeType.REMOVE)
     @JsonIgnore
     Set<Message> messages;
-
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(Set<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public Set<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Set<Message> messages) {
-        this.messages = messages;
-
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

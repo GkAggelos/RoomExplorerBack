@@ -38,8 +38,7 @@ public class SecurityConfiguration {
                         "renter/find/all/emails",
                         "residence/search/**",
                         "residence/find/**",
-                        "reservation/find/residence/**",
-                        "residence/recommendations/**")
+                        "reservation/find/residence/review/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
