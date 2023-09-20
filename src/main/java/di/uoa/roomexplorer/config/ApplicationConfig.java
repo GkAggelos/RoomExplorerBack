@@ -180,6 +180,7 @@ public class ApplicationConfig {
 
             matrixFactorizationService.train();
             System.out.println("finished training");
+            System.out.println(matrixFactorizationService.getMatrix().toString());
         };
     }
 }

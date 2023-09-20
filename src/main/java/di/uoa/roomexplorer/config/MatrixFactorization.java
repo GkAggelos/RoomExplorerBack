@@ -16,6 +16,7 @@ public class MatrixFactorization {
     private final double learningRate;
     @Getter @Setter
     private Matrix P;
+    @Getter @Setter
     private Matrix Q;
 
 

@@ -13,6 +13,6 @@ public interface ResidenceRepo extends JpaRepository<Residence, Long>, CustomRes
     List<Residence> findResidencesByHost_Id(Long id);
     Page<Residence> findResidencesByHost_Id(Long id, Pageable pageable);
 
-    @Query("SELECT r.id FROM Residence r")
+    @Query("SELECT r.id FROM Residence r ORDER BY r.id")
     List<Long> findAllResidenceId();
 }
