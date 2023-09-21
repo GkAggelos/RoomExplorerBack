@@ -52,7 +52,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        if (!role.isEmpty()) authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        if (role != null && !role.isEmpty()) authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         return authorities;
     }
 
