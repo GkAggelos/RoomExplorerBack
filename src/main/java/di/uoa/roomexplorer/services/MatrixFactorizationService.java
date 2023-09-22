@@ -80,6 +80,16 @@ public class MatrixFactorizationService {
         this.matrix.set(renterIndex, residenceIndex, stars);
     }
 
+    public double getCellValueId(Long renterId, Long residenceId) {
+        List<Long> renters = renterRepo.findAllRenterId();
+        int renterIndex = renters.indexOf(renterId);
+
+        List<Long> residences = residenceRepo.findAllResidenceId();
+        int residenceIndex = residences.indexOf(residenceId);
+
+        return this.matrix.get(renterIndex, residenceIndex);
+    }
+
     public void train() {
         this.matrixFactorization.train();
     }
@@ -104,7 +114,7 @@ public class MatrixFactorizationService {
                     else {
                         i--;
                     }
-                    prediction.set(j, 0);
+                    prediction.set(j, -1);
                     break;
                 }
             }
@@ -112,4 +122,6 @@ public class MatrixFactorizationService {
 
         return recommendedResidenceIndexes;
     }
+
+    public Matrix getFullMatrix() { return this.matrixFactorization.getFullMatrix(); }
 }

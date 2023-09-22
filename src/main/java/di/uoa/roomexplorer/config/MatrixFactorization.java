@@ -11,9 +11,10 @@ import java.util.Random;
 
 public class MatrixFactorization {
 
-    private final Matrix R;
     private final int K;
     private final double learningRate;
+    @Getter @Setter
+    private Matrix R;
     @Getter @Setter
     private Matrix P;
     @Getter @Setter
@@ -24,11 +25,12 @@ public class MatrixFactorization {
         R = r;
         K = k;
         this.learningRate = learningRate;
-        this.P = Matrix.random(this.R.rows(), this.K, new Random());
-        this.Q = Matrix.random(this.K, this.R.columns(), new Random());
     }
 
     public void train() {
+
+        this.P = Matrix.random(this.R.rows(), this.K, new Random());
+        this.Q = Matrix.random(this.K, this.R.columns(), new Random());
 
         List<List<Integer>> nonEmptyCells = new ArrayList<>();
         for (int row = 0; row < R.rows(); row++) {

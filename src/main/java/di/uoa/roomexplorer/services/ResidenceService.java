@@ -20,20 +20,18 @@ public class ResidenceService {
     private final ResidenceRepo residenceRepo;
     private final ReservationRepo reservationRepo;
     private final MatrixFactorizationService matrixFactorizationService;
-    private final SearchService searchService;
 
-    public ResidenceService(ResidenceRepo residenceRepo, ReservationRepo reservationRepo, MatrixFactorizationService matrixFactorizationService, SearchService searchService) {
+    public ResidenceService(ResidenceRepo residenceRepo, ReservationRepo reservationRepo, MatrixFactorizationService matrixFactorizationService) {
         this.residenceRepo = residenceRepo;
         this.reservationRepo = reservationRepo;
         this.matrixFactorizationService = matrixFactorizationService;
-        this.searchService = searchService;
     }
 
     public Residence addResidence(Residence newResidence) {
         newResidence = residenceRepo.save(newResidence);
         int residenceIndex = residenceRepo.findAllResidenceId().indexOf(newResidence.getId());
         this.matrixFactorizationService.addColumn(residenceIndex);
-        System.out.println(residenceIndex);
+
         return newResidence;
     }
 
@@ -68,28 +66,7 @@ public class ResidenceService {
 
     public List<Residence> findResidenceRecommendations(Long renterId) {
 
-        boolean hasReservations = false;
-        List<Long> reservedResidenceIds = new ArrayList<>();
-        if (reservationRepo.countNonEmptyReservationsByRenter_Id(renterId) > 0) {
-            reservedResidenceIds = reservationRepo.findReservedResidenceIdsByRenter_Id(renterId);
-            hasReservations = true;
-        }
-
-        // If there are no reservations, get residences from search history
-        if (!hasReservations) {
-            List<Long> searchedResidenceIds = searchService.findResidenceIdsByRenterId(renterId);
-            for (Long searchedResidenceId : searchedResidenceIds) {
-                matrixFactorizationService.updateCellId(renterId, searchedResidenceId, 3);
-            }
-            matrixFactorizationService.train();
-            // revert changes
-            for (Long searchedResidenceId : searchedResidenceIds) {
-                matrixFactorizationService.updateCellId(renterId, searchedResidenceId, 0);
-            }
-            matrixFactorizationService.train();
-//            reservedResidenceIds = searchedResidenceIds;
-        }
-
+        List<Long> reservedResidenceIds = reservationRepo.findReservedResidenceIdsByRenter_Id(renterId);
         List<Long> residencesId = residenceRepo.findAllResidenceId();
 
         List<Integer> reservedResidenceIndexes = new ArrayList<>();

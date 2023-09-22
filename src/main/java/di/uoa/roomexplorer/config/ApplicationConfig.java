@@ -4,6 +4,7 @@ import di.uoa.roomexplorer.exception.ResidenceNotFoundException;
 import di.uoa.roomexplorer.model.*;
 import di.uoa.roomexplorer.repositories.*;
 import di.uoa.roomexplorer.services.MatrixFactorizationService;
+import di.uoa.roomexplorer.services.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.la4j.Matrix;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static di.uoa.roomexplorer.model.RoomType.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -63,8 +67,8 @@ public class ApplicationConfig {
 //            renter = new Renter("aggelos20", passwordEncoder.encode("1234"), "Aggelos", "Gounelas", "aggelos20@gmail.com", "6986534211");
 //            renterRepo.save(renter);
 //
-////            renter = new Renter("lydia20", passwordEncoder.encode("0000"), "Lydia", "Kyriakou", "lydia20@gmail.com", "6986534212");
-////            renterRepo.save(renter);
+//            renter = new Renter("lydia20", passwordEncoder.encode("0000"), "Lydia", "Kyriakou", "lydia20@gmail.com", "6986534212");
+//            renterRepo.save(renter);
 //        };
 //    }
 //
