@@ -122,6 +122,4 @@ public class MatrixFactorizationService {
 
         return recommendedResidenceIndexes;
     }
-
-    public Matrix getFullMatrix() { return this.matrixFactorization.getFullMatrix(); }
 }

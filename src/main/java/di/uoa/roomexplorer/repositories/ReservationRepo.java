@@ -24,7 +24,4 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     List<Long> findReservedResidenceIdsByRenter_Id(Long renterId);
 
     Optional<Page<Reservation>> findReservationsByRenter_Id(Long renterId, Pageable pageable);
-
-    @Query("SELECT COUNT(*) FROM Reservation r WHERE r.renter.id = ?1 AND r.review != '' AND r.review != null")
-    Integer countNonEmptyReservationsByRenter_Id(Long renterId);
 }
